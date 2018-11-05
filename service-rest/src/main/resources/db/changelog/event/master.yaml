@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changesets:
+      id: createEventTable
+      author: constantinkrueger
+      changes: 
+        - createtable:
+            tableName: Event
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                     primaryKey: true
+                     nullable: false
+              - column:
+                  name: event_name
+                  type: string
+                  constraints:
+                    nullable: false
+                    unique: true       
+              
+                   
+       
