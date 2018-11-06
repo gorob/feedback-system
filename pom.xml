@@ -27,6 +27,7 @@
 
 	<modules>
 		<module>service-rest</module>
+		<module>ui-vaadin</module>
 	</modules>
 
 
