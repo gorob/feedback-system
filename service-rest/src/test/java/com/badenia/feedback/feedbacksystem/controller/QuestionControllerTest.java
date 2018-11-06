@@ -3,6 +3,7 @@ package com.badenia.feedback.feedbacksystem.controller;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.badenia.feedback.feedbacksystem.repository.EventRepository;
 import com.badenia.feedback.feedbacksystem.repository.QuestionRepository;
+import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(QuestionController.class)
@@ -39,6 +41,18 @@ public class QuestionControllerTest {
 		
 		verify(eventRepositoryMock).findById(20L);
 		
+	}
+
+	@Test
+	public void testReadAll_NoQuestionsFound_ReturnHttpStatusNoContent() throws Exception {
+		when(eventRepositoryMock.findById(20L)).thenReturn(Optional.of(new EventTableModel()));
+		when(questionRepositoryMock.findAllByEventId(20L)).thenReturn(new ArrayList<>());
+		
+		
+		mockMvc.perform(MockMvcRequestBuilders.get("/v1/feedback/events/20/questions")).andExpect(MockMvcResultMatchers.status().isNoContent());
+		
+		verify(eventRepositoryMock).findById(20L);
+		verify(questionRepositoryMock).findAllByEventId(20L);
 	}
 	
 }
