@@ -10,25 +10,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Event")
+@Entity(name = "Answer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventTableModel {
+public class AnswerTableModel {
 
 	@Id
 	private Long id;
-
-	@Column
-	private String name;
-
-	@Column
-	private String description;
-
-	@Column(name = "start_date")
-	private Date start;
-
-	@Column(name = "end_date")
-	private Date end;
-
+	
+	@Column(name = "answered_at")
+	private Date answeredAt;
+	
+	@Column(name = "remark")
+	private String remark;
+	
+	@Column(name = "question_option_id")
+	private Long questionOptionId;
+	
+	@Column(name = "question_id")
+	private Long question_id;
+	
+	
+	
 }
