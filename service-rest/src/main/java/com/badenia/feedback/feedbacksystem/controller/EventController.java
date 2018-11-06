@@ -18,7 +18,8 @@ import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-@RestController("/v1/feedback/events")
+@RestController
+@RequestMapping("/v1/feedback/events")
 @Getter(AccessLevel.PROTECTED)
 public class EventController {
 

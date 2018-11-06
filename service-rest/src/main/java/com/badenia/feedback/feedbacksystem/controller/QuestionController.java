@@ -21,7 +21,8 @@ import com.badenia.feedback.feedbacksystem.repository.model.QuestionTableModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-@RestController("/v1/feedback/events/{eventId}/questions")
+@RestController
+@RequestMapping("/v1/feedback/events/{eventId}/questions")
 @Getter(value = AccessLevel.PROTECTED)
 public class QuestionController {
 
@@ -32,12 +33,12 @@ public class QuestionController {
 	private QuestionRepository questionRepository;
 	
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long id) {
-		Optional<EventTableModel> event = eventRepository.findById(id);
+	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long eventId) {
+		Optional<EventTableModel> event = eventRepository.findById(eventId);
 		if (event.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
-			List<QuestionTableModel> questions = questionRepository.findAllByEventId(id);
+			List<QuestionTableModel> questions = questionRepository.findAllByEventId(eventId);
 			if (questions.isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
