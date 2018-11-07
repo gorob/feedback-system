@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.badenia.feedback.feedbacksystem.controller.model.QuestionOptionTM;
@@ -32,7 +32,7 @@ public class QuestionOptionController {
 	@Autowired
 	private QuestionOptionRepository questionOptionRepository;
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<QuestionOptionTM>> readAll(@PathVariable("eventId") Long eventId,
 			@PathVariable("questionId") Long questionId) {
 		Optional<QuestionTableModel> question = getQuestionRepository().findByEventIdAndId(eventId, questionId);
