@@ -16,14 +16,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.badenia.feedback.feedbacksystem.repository.EventRepository;
+import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = EventController.class)
 public class EventControllerTest {
 	
 	@MockBean
-	EventRepository eventRepository;
+	IFeedbackService feedbackService;
 	
 	@Autowired
 	MockMvc mockMvc;
@@ -31,11 +31,11 @@ public class EventControllerTest {
 	@Test
 	public void testGetEvents_NoEventsExists_ReturnsHttpStatusNoContent() throws Exception {
 		
-		when(eventRepository.findAll()).thenReturn(new  ArrayList<>());
+		when(feedbackService.findEvents()).thenReturn(new  ArrayList<>());
 		
 		mockMvc.perform(MockMvcRequestBuilders.get("/v1/feedback/events").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(MockMvcResultMatchers.status().isNoContent());
 		
-		verify(eventRepository).findAll();
+		verify(feedbackService).findEvents();
 	}
 
 }

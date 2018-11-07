@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.badenia.feedback.feedbacksystem.controller.model.QuestionTM;
-import com.badenia.feedback.feedbacksystem.repository.EventRepository;
-import com.badenia.feedback.feedbacksystem.repository.QuestionRepository;
-import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
-import com.badenia.feedback.feedbacksystem.repository.model.QuestionTableModel;
+import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
+import com.badenia.feedback.feedbacksystem.service.model.Event;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTableModel;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,22 +26,18 @@ import lombok.Getter;
 public class QuestionController {
 
 	@Autowired
-	private EventRepository eventRepository;
-	
-	@Autowired
-	private QuestionRepository questionRepository;
+	private IFeedbackService feedbackService;
 	
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long eventId) {
-		Optional<EventTableModel> event = eventRepository.findById(eventId);
+		Optional<Event> event = getFeedbackService().findEventById(eventId);
 		if (event.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
-			List<QuestionTableModel> questions = questionRepository.findAllByEventId(eventId);
-			if (questions.isEmpty()) {
+			if (event.get().getQuestions().isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
-				return ResponseEntity.ok(questions.stream().map(this::map).collect(Collectors.toList()));
+				return ResponseEntity.ok(event.get().getQuestions().stream().map(q -> new QuestionTM(q.getId(), q.getName())).collect(Collectors.toList()));
 			}
 			
 		}

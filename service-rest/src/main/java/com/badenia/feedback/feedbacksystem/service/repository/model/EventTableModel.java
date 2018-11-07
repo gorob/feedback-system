@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository.model;
+package com.badenia.feedback.feedbacksystem.service.repository.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,16 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Question_Option")
+@Entity(name = "Event")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class QuestionOptionTableModel {
+@NoArgsConstructor
+public class EventTableModel {
 
 	@Id
 	private Long id;
-	
-	@Column(name = "question_type_id")
-	private Long questionTypeId;
-	
+
+	@Column
+	private String name;
+
 }

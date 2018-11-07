@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.badenia.feedback.feedbacksystem.controller.model.QuestionOptionTM;
-import com.badenia.feedback.feedbacksystem.repository.EventRepository;
-import com.badenia.feedback.feedbacksystem.repository.QuestionOptionRepository;
-import com.badenia.feedback.feedbacksystem.repository.QuestionRepository;
-import com.badenia.feedback.feedbacksystem.repository.model.QuestionOptionTableModel;
-import com.badenia.feedback.feedbacksystem.repository.model.QuestionTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionOptionRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionOptionTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTableModel;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,9 +25,6 @@ import lombok.Getter;
 @RequestMapping("/v1/feedback/events/{eventId}/questions/{questionId}/options")
 @Getter(value = AccessLevel.PROTECTED)
 public class QuestionOptionController {
-
-	@Autowired
-	private EventRepository eventRepository;
 
 	@Autowired
 	private QuestionRepository questionRepository;
