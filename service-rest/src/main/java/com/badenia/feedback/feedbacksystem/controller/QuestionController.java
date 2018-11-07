@@ -2,7 +2,6 @@ package com.badenia.feedback.feedbacksystem.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,10 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.badenia.feedback.feedbacksystem.controller.model.QuestionTM;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
-import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTableModel;
+import com.badenia.feedback.feedbacksystem.service.model.Question;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,24 +25,20 @@ public class QuestionController {
 
 	@Autowired
 	private IFeedbackService feedbackService;
-	
+
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long eventId) {
+	public ResponseEntity<List<Question>> readAll(@PathVariable("eventId") Long eventId) {
 		Optional<Event> event = getFeedbackService().findEventById(eventId);
 		if (event.isPresent()) {
 			if (event.get().getQuestions().isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
-				return ResponseEntity.ok(event.get().getQuestions().stream().map(q -> new QuestionTM(q.getId(), q.getName())).collect(Collectors.toList()));
+				return ResponseEntity.ok(event.get().getQuestions());
 			}
 		} else {
 			return ResponseEntity.notFound().build();
-			
+
 		}
 	}
-	
-	protected QuestionTM map(QuestionTableModel model) {
-		return new QuestionTM(model.getId(), model.getQuestion());
-	}
-	
+
 }

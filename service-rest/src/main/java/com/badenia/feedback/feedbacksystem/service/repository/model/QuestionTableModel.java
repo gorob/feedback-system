@@ -17,15 +17,15 @@ public class QuestionTableModel {
 
 	@Id
 	private Long id;
-	
+
 	@Column(name = "event_id")
 	private Long eventId;
-	
+
 	@Column(name = "question_type_id")
 	private Long questionTypeId;
-	
-	@Column
+
+	@Column(name = "question")
 	@NonNull
-	private String question;
-	
+	private String questionTitle;
+
 }

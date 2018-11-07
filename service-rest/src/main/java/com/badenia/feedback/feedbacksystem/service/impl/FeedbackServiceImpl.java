@@ -36,13 +36,17 @@ class FeedbackServiceImpl implements IFeedbackService {
 	protected Event loadEvent(EventTableModel event) {
 		List<QuestionTableModel> questions = getQuestionRepository().findAllByEventId(event.getId());
 		return new Event(event.getId(), event.getName(),
-				questions.stream().map(q -> new Question(q.getId(), q.getQuestion())).collect(Collectors.toList()));
+				questions.stream().map(this::map).collect(Collectors.toList()));
+	}
+
+	protected Question map(QuestionTableModel question) {
+		return Question.builder().id(question.getId()).questionName(question.getQuestionTitle()).build();
 	}
 
 	@Override
 	public Optional<Event> findEventById(Long id) {
 		Optional<EventTableModel> event = getEventRepository().findById(id);
-		return event.isEmpty() ? Optional.empty() : Optional.of(loadEvent(event.get()));
+		return event.isPresent() ? Optional.of(loadEvent(event.get())) : Optional.empty();
 	}
 
 }
