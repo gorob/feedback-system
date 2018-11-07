@@ -30,13 +30,13 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Override
 	public List<Event> findEvents() {
-		return getEventRepository().findAll().stream().map(e -> loadEvent(e)).collect(Collectors.toList());
+		return getEventRepository().findAll().stream().map(this::loadEvent).collect(Collectors.toList());
 	}
 
 	protected Event loadEvent(EventTableModel event) {
 		List<QuestionTableModel> questions = getQuestionRepository().findAllByEventId(event.getId());
-		return new Event(event.getId(), event.getName(),
-				questions.stream().map(this::map).collect(Collectors.toList()));
+		return Event.builder().id(event.getId()).name(event.getName())
+				.questions(questions.stream().map(this::map).collect(Collectors.toList())).build();
 	}
 
 	protected Question map(QuestionTableModel question) {
