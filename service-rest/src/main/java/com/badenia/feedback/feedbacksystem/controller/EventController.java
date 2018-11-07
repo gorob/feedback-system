@@ -38,7 +38,7 @@ public class EventController {
 	}
 
 	protected EventTM map(EventTableModel model) {
-		return new EventTM(model.getId(), model.getName(), model.getDescription(), model.getStart(), model.getEnd());
+		return new EventTM(model.getId(), model.getName());
 	}
 
 }

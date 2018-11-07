@@ -18,8 +18,11 @@ public class QuestionTableModel {
 	@Id
 	private Long id;
 	
-	@Column(name = "eventId")
+	@Column(name = "event_id")
 	private Long eventId;
+	
+	@Column(name = "question_type_id")
+	private Long questionTypeId;
 	
 	@Column
 	@NonNull

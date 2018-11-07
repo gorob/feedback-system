@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -28,7 +26,7 @@ public class EventRepositoryTest {
 		List<EventTableModel> list = underTest.findAll();
 		assertNotNull(list);
 		assertEquals(2, list.size());
-		assertTrue(list.contains(new EventTableModel(-1L, "", "", Date.from(Instant.parse("2018-10-10T08:00:00.00Z")), Date.from(Instant.parse("2018-10-12T08:00:00.00Z")))));
+		assertTrue(list.contains(new EventTableModel(1L, "Tägliche Essen-Umfrage")));
 	}
 	
 }

@@ -1,7 +1,5 @@
 package com.badenia.feedback.feedbacksystem.repository.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,14 +19,5 @@ public class EventTableModel {
 
 	@Column
 	private String name;
-
-	@Column
-	private String description;
-
-	@Column(name = "start_date")
-	private Date start;
-
-	@Column(name = "end_date")
-	private Date end;
 
 }
