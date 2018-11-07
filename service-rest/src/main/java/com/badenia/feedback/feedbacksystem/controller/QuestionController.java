@@ -31,14 +31,14 @@ public class QuestionController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long eventId) {
 		Optional<Event> event = getFeedbackService().findEventById(eventId);
-		if (event.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
+		if (event.isPresent()) {
 			if (event.get().getQuestions().isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
 				return ResponseEntity.ok(event.get().getQuestions().stream().map(q -> new QuestionTM(q.getId(), q.getName())).collect(Collectors.toList()));
 			}
+		} else {
+			return ResponseEntity.notFound().build();
 			
 		}
 	}
