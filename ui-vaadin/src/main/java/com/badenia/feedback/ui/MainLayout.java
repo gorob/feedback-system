@@ -1,4 +1,4 @@
-package com.badenia.feedback;
+package com.badenia.feedback.ui;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.StyleSheet;
@@ -15,21 +15,15 @@ import com.vaadin.flow.router.Route;
  */
 @Route("")
 @PageTitle("Feedbacksystem")
-@StyleSheet("format/format.css")
-public class MainView extends VerticalLayout {
+@StyleSheet("styles/format.css")
+public class MainLayout extends VerticalLayout {
+	private static final long serialVersionUID = 1L;
 
-	public MainView() {
-
-		//    	H1 title = new H1("Feedbacksystem");
-		//    	title.setClassName("center");
-		//    	add(title);
-
-
-		setHeight("100%");	
-
-		add(createQuestionSection(33));
-		add(createQuestionOptionsSection(33));
-		add(createEmptySection(33));
+	public MainLayout() {
+		add(createEmptySection(25));
+		add(createQuestionSection(25));
+		add(createQuestionOptionsSection(25));
+		add(createEmptySection(25));
 	}
 	
 	private HorizontalLayout createQuestionSection(int height) {
@@ -38,11 +32,12 @@ public class MainView extends VerticalLayout {
 		layout.setWidth("100%");
 
 		H2 lblTitle = new H2();
-		lblTitle.setText("Wie hat Ihnen das Essen heute geschmeckt?");
-		lblTitle.setClassName("titelLabel");
+		lblTitle.setText("Dies ist ein Test");
+		lblTitle.setClassName("titleLabel");
 		layout.add(lblTitle);
 		
 		layout.setAlignItems(Alignment.CENTER);
+		layout.addClassName("titleLabel");
 
 		return layout;
 	}
@@ -64,7 +59,7 @@ public class MainView extends VerticalLayout {
 
 		for (int i = 0; i < 3; i++) {
 			Image image = new Image();
-			image.setSrc("frontend/images/smileyGelb.png");
+			image.setSrc("frontend/images/0"+(i+1)+".png");
 
 			Button imageButton = new Button();
 			imageButton.setIcon(image);
@@ -75,7 +70,7 @@ public class MainView extends VerticalLayout {
 			imageButton.setClassName("imageButton");
 			layout.add(imageButton);
 
-			image.setWidth("80%");
+			image.setWidth("100%");
 		}
 		
 		return layout;
