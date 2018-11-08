@@ -1,0 +1,15 @@
+.center{
+  align-self: center;
+}
+
+.imageCenter{
+	align-self: center;
+}
+
+.buttonImage{
+background-color: transparent !important;
+background-image: url("../images/smileyGruen.png") !important;
+background-repeat: no-repeat !important ;
+width: 30%;
+height: 80%;
+}

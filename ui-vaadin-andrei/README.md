@@ -1,35 +1,20 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vaadin-flow/Lobby#?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# Beverage Buddy App Starter for Vaadin 11
-:coffee::tea::sake::baby_bottle::beer::cocktail::tropical_drink::wine_glass:
+# Skeleton Starter for Vaadin Flow
 
-This is a Vaadin 11 example Java application, used to demonstrate features of the Vaadin Flow Java framework.
+This project can be used as a starting point to create your own Vaadin Flow application.
+It has the necessary dependencies and files to help you get started.
 
-The easiest way of using it is via [https://vaadin.com/start](https://vaadin.com/start/v10-simple-ui) - you can choose the package naming you want.
+The best way to use it by via [vaadin.com/start](https://vaadin.com/start) - you can get only the necessary parts and choose the package naming you want to use.
+There is also a [getting started tutorial](https://vaadin.com/docs/v10/flow/introduction/tutorial-get-started.html) based on this project.
 
-The Starter demonstrates the core Vaadin Flow concepts:
-* Building UIs in Java with Components based on [Vaadin components](https://vaadin.com/components/browse), such as `TextField`, `Button`, `ComboBox`, `DatePicker`, `VerticalLayout` and `Grid` (see `CategoriesList`)
-* [Creating forms with `Binder`](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-binder-in-review-editor-dialog.asciidoc) (`ReviewEditorDialog`)
-* Making reusable Components on server side with `Composite` (`AbstractEditorDialog`)
-* [Creating a Component based on a HTML Template](https://github.com/vaadin/free-starter-flow/blob/master/documentation/polymer-template-based-view.asciidoc) (`ReviewsList`) 
-  * This template can be opened and edited with [the Vaadin Designer](https://vaadin.com/designer)
-* [Creating Navigation with the Router API](https://github.com/vaadin/free-starter-flow/blob/master/documentation/using-annotation-based-router-api.asciidoc) (`MainLayout`, `ReviewsList`, `CategoriesList`)
+To access it directly from github, clone the repository and import the project to the IDE of your choice as a Maven project. You need to have Java 8 installed.
 
-## Prerequisites
+Run using `mvn jetty:run` and open [http://localhost:8080](http://localhost:8080) in browser.
 
-The project can be imported into the IDE of your choice, with Java 8 installed, as a Maven project.
+For a full Vaadin Flow application example, there is the Beverage Buddy App Starter for Flow available also from [vaadin.com/start](https://vaadin.com/start) page.
 
-## Running the Project
-
-1. Run using `mvn jetty:run`
-2. Wait for the application to start
-3. Open http://localhost:8080/ to view the application
-
-## Documentation
-
-Brief introduction to the application parts can be found from the `documentation` folder. For Vaadin 10 documentation for Java users, see [Vaadin.com/docs](https://vaadin.com/docs/v10/flow/Overview.html).
-
-### Branching information
+Branching information:
 * `master` the latest version of the starter, using latest platform snapshot
 * `V10` the version for Vaadin 10
 * `V11` the version for Vaadin 11
