@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository.model;
+package com.badenia.feedback.feedbacksystem.service.repository.model;
 
 import java.util.Date;
 
@@ -29,7 +29,7 @@ public class AnswerTableModel {
 	private Long questionOptionId;
 	
 	@Column(name = "question_id")
-	private Long question_id;
+	private Long questionId;
 	
 	
 	

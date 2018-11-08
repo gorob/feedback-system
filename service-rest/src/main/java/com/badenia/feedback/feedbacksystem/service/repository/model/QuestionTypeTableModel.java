@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository.model;
+package com.badenia.feedback.feedbacksystem.service.repository.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

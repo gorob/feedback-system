@@ -1,9 +1,9 @@
-package com.badenia.feedback.feedbacksystem.repository;
+package com.badenia.feedback.feedbacksystem.service.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.model.EventTableModel;
 
 @Repository
 public interface EventRepository extends JpaRepository<EventTableModel, Long> {

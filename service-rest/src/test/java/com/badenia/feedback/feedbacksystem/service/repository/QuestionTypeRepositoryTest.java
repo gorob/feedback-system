@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository;
+package com.badenia.feedback.feedbacksystem.service.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.badenia.feedback.feedbacksystem.repository.model.QuestionTypeTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionTypeRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTypeTableModel;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest

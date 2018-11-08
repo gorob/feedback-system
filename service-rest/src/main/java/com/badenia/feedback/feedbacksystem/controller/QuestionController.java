@@ -2,53 +2,43 @@ package com.badenia.feedback.feedbacksystem.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.badenia.feedback.feedbacksystem.controller.model.QuestionTM;
-import com.badenia.feedback.feedbacksystem.repository.EventRepository;
-import com.badenia.feedback.feedbacksystem.repository.QuestionRepository;
-import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
-import com.badenia.feedback.feedbacksystem.repository.model.QuestionTableModel;
+import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
+import com.badenia.feedback.feedbacksystem.service.model.Event;
+import com.badenia.feedback.feedbacksystem.service.model.Question;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 
-@RestController("/v1/feedback/events/{eventId}/questions")
+@RestController
+@RequestMapping("/v1/feedback/events/{eventId}/questions")
 @Getter(value = AccessLevel.PROTECTED)
 public class QuestionController {
 
 	@Autowired
-	private EventRepository eventRepository;
-	
-	@Autowired
-	private QuestionRepository questionRepository;
-	
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<QuestionTM>> readAll(@PathVariable("eventId") Long id) {
-		Optional<EventTableModel> event = eventRepository.findById(id);
-		if (event.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
-			List<QuestionTableModel> questions = questionRepository.findAllByEventId(id);
-			if (questions.isEmpty()) {
+	private IFeedbackService feedbackService;
+
+	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Question>> readAll(@PathVariable("eventId") Long eventId) {
+		Optional<Event> event = getFeedbackService().findEventById(eventId);
+		if (event.isPresent()) {
+			if (event.get().getQuestions().isEmpty()) {
 				return ResponseEntity.noContent().build();
 			} else {
-				return ResponseEntity.ok(questions.stream().map(this::map).collect(Collectors.toList()));
+				return ResponseEntity.ok(event.get().getQuestions());
 			}
-			
+		} else {
+			return ResponseEntity.notFound().build();
+
 		}
 	}
-	
-	protected QuestionTM map(QuestionTableModel model) {
-		return new QuestionTM(model.getId(), model.getQuestion());
-	}
-	
+
 }

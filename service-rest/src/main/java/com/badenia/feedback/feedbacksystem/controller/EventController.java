@@ -1,43 +1,36 @@
 package com.badenia.feedback.feedbacksystem.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.badenia.feedback.feedbacksystem.controller.model.EventTM;
-import com.badenia.feedback.feedbacksystem.repository.EventRepository;
-import com.badenia.feedback.feedbacksystem.repository.model.EventTableModel;
+import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
+import com.badenia.feedback.feedbacksystem.service.model.Event;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 
-@RestController("/v1/feedback/events")
+@RestController
+@RequestMapping("/v1/feedback/events")
 @Getter(AccessLevel.PROTECTED)
 public class EventController {
 
 	@Autowired
-	private EventRepository eventRepository;
+	private IFeedbackService feedbackService;
 
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<EventTM>> getEvents() {
-		List<EventTableModel> events = new ArrayList<>();
-		getEventRepository().findAll().forEach(events::add);
+	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<Event>> getEvents() {
+		List<Event> events = getFeedbackService().findEvents();
 		if (events.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.ok(events.stream().map(this::map).collect(Collectors.toList()));
+			return ResponseEntity.ok(events);
 		}
-	}
-
-	protected EventTM map(EventTableModel model) {
-		return new EventTM(model.getId(), model.getName(), model.getDescription(), model.getStart(), model.getEnd());
 	}
 
 }

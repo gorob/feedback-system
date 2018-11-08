@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository;
+package com.badenia.feedback.feedbacksystem.service.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,20 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.badenia.feedback.feedbacksystem.repository.model.AnswerTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionOptionRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionOptionTableModel;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
-public class AnswerRepositoryTest {
+public class QuestionOptionRepositoryTest {
 
 	@Autowired
-	AnswerRepository underTest;
-	
+	QuestionOptionRepository underTest;
+
 	@Test
 	public void testFindAll() {
-		List<AnswerTableModel> list = underTest.findAll();
+		List<QuestionOptionTableModel> list = underTest.findAll();
 		assertNotNull(list);
-		assertEquals(0, list.size());
+		assertEquals(10, list.size());
 	}
-	
+
 }

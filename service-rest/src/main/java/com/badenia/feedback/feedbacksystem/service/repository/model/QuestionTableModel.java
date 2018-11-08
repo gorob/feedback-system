@@ -1,4 +1,4 @@
-package com.badenia.feedback.feedbacksystem.repository.model;
+package com.badenia.feedback.feedbacksystem.service.repository.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +17,15 @@ public class QuestionTableModel {
 
 	@Id
 	private Long id;
-	
-	@Column(name = "eventId")
+
+	@Column(name = "event_id")
 	private Long eventId;
-	
-	@Column
+
+	@Column(name = "question_type_id")
+	private Long questionTypeId;
+
+	@Column(name = "question")
 	@NonNull
-	private String question;
-	
+	private String questionTitle;
+
 }
