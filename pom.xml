@@ -27,6 +27,7 @@
 		<module>service-rest</module>
 		<module>ui-vaadin</module>
     <module>ui-vaadin-andrei</module>
+    <module>angular-ui</module>
   </modules>
 
 
