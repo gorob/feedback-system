@@ -43,10 +43,9 @@ const appRoutes: Routes = [
     ToolbarComponent,
   ],
   imports: [
- CommonModule,
- NgtUniversalModule,
- HttpClientModule,
-
+    CommonModule,
+    NgtUniversalModule,
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(
