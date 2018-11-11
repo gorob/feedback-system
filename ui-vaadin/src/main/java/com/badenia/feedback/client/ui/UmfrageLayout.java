@@ -1,4 +1,4 @@
-package com.badenia.feedback.ui;
+package com.badenia.feedback.client.ui;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.StyleSheet;
@@ -13,13 +13,13 @@ import com.vaadin.flow.router.Route;
 /**
  * The main view contains a button and a click listener.
  */
-@Route("")
+@Route("umfrage")
 @PageTitle("Feedbacksystem")
 @StyleSheet("styles/format.css")
-public class MainLayout extends VerticalLayout {
+public class UmfrageLayout extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	public MainLayout() {
+	public UmfrageLayout() {
 		add(createEmptySection(25));
 		add(createQuestionSection(25));
 		add(createQuestionOptionsSection(25));

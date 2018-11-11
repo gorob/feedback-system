@@ -14,128 +14,76 @@
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<failOnMissingWebXml>false</failOnMissingWebXml>
-
-		<vaadin.version>11.0.0.beta2</vaadin.version>
-		<jetty.version>9.4.11.v20180605</jetty.version>
+		<vaadin.version>10.0.5</vaadin.version>
 	</properties>
 
-	<pluginRepositories>
-		<!-- Repository needed for prerelease versions of Vaadin -->
-		<pluginRepository>
-			<id>vaadin-prereleases</id>
-			<url>https://maven.vaadin.com/vaadin-prereleases</url>
-		</pluginRepository>
-	</pluginRepositories>
+	<dependencies>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-	<repositories>
-		<!-- Repository used by many Vaadin add-ons -->
-		<repository>
-			<id>Vaadin Directory</id>
-			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-		<!-- Repository needed for prerelease versions of Vaadin -->
-		<repository>
-			<id>vaadin-prereleases</id>
-			<url>https://maven.vaadin.com/vaadin-prereleases</url>
-		</repository>
-	</repositories>
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.26</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock</artifactId>
+			<version>2.19.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-bom</artifactId>
+				<version>${vaadin.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-				<version>${vaadin.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-core</artifactId>
-		</dependency>
-
-		<!-- Added to provide logging output as Flow uses -->
-		<!-- the unbound SLF4J no-operation (NOP) logger implementation -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.2</version>
-			<type>jar</type>
-		</dependency>
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
 
-	<profiles>
-		<profile>
-			<!-- Production mode can be activated with either property or profile -->
-			<id>production-mode</id>
-			<activation>
-				<property>
-					<name>vaadin.productionMode</name>
-				</property>
-			</activation>
-
-			<properties>
-				<vaadin.productionMode>true</vaadin.productionMode>
-			</properties>
-
-			<dependencies>
-				<dependency>
-					<groupId>com.vaadin</groupId>
-					<artifactId>flow-server-production-mode</artifactId>
-				</dependency>
-			</dependencies>
-
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.vaadin</groupId>
-						<artifactId>vaadin-maven-plugin</artifactId>
-						<version>${vaadin.version}</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>copy-production-files</goal>
-									<goal>package-for-production</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>3.1.0</version>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
