@@ -39,48 +39,48 @@ export class APIService implements OnInit {
   }
 
   getEvents(): Event[] {
-    return this.eventss = [new Event(1, 'aaa', 'bbb')];
-    // this.getEventsFromApi().subscribe((data?: []) => {
-      // this.parseData(data);
-    // });
-    // return this.eventss;
+    this.eventss = [];
+    this.getEventsFromApi().subscribe((data?: []) => {
+      this.parseData(data);
+    });
+    return this.eventss;
   }
 
-//   parseData(jsonData: string[]) {
-//     console.log(jsonData[0]);
-//     console.log('lenght ' + jsonData.length);
-//     for (let i = 0; jsonData.length; i++) {
-//       let questionsList: Question[];
-//       questionsList = [];
-//       // for (let j = 0; jsonData[i]['questions'].length - 1; j++) {
-//       //   const question = new Question(jsonData[i]['questions'][j]['id'], jsonData[i]['questions'][j]['questionName']);
-//       //   questionsList[j] = question;
-//       // }
+  parseData(jsonData: string[]) {
+    console.log(jsonData[0]);
+    console.log('lenght ' + jsonData.length);
+    for (let i = 0; jsonData.length; i++) {
+      let questionsList: Question[];
+      questionsList = [];
+      // for (let j = 0; jsonData[i]['questions'].length - 1; j++) {
+      //   const question = new Question(jsonData[i]['questions'][j]['id'], jsonData[i]['questions'][j]['questionName']);
+      //   questionsList[j] = question;
+      // }
 
-//         const question = new Question(1, 'Wie hat das Essen heute geschmeckt?');
-//         questionsList[0] = question;
-//       console.log('Fragen');
-//       console.log(jsonData[i]['name']);
-//       console.log(questionsList);
+        const question = new Question(1, 'Wie hat das Essen heute geschmeckt?');
+        questionsList[0] = question;
+      console.log('Fragen');
+      console.log(jsonData[i]['name']);
+      console.log(questionsList);
 
 
-//       const data = new Event(jsonData[i]['id'], jsonData[i]['name'], questionsList);
-//       this.eventss.push(data);
-//     }
-//   }
+      const data = new Event(jsonData[i]['id'], jsonData[i]['name'], questionsList);
+      this.eventss.push(data);
+    }
+  }
 
-//   private handleError<T> (operation = 'operation', result?: T) {
-//   return (error: any): Observable<T> => {
+  private handleError<T> (operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
 
-//     // TODO: send the error to remote logging infrastructure
-//     console.error(error); // log to console instead
+    // TODO: send the error to remote logging infrastructure
+    console.error(error); // log to console instead
 
-//     // TODO: better job of transforming error for user consumption
-//     console.log(`${operation} failed: ${error.message}`);
+    // TODO: better job of transforming error for user consumption
+    console.log(`${operation} failed: ${error.message}`);
 
-//     // Let the app keep running by returning an empty result.
-//     return of(result as T);
-//   };
-// }
+    // Let the app keep running by returning an empty result.
+    return of(result as T);
+  };
+}
 
 }
