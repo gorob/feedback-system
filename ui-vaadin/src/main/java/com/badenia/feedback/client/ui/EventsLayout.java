@@ -48,7 +48,7 @@ public class EventsLayout extends VerticalLayout {
 	}
     
     
-    public IFeedbackClientService getService() {
+    private IFeedbackClientService getService() {
 		return service;
 	}
     
