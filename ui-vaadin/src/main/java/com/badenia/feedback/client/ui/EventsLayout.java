@@ -62,6 +62,7 @@ public class EventsLayout extends VerticalLayout {
 		
 		Grid<Event> grid = new Grid<Event>();
 		grid.addColumn(Event::getName).setHeader("Event").setWidth("8em").setResizable(true);
+		grid.addColumn(Event::getNumberOfQuestionsStr).setHeader("").setWidth("20em").setResizable(true);
 		grid.setSelectionMode(SelectionMode.NONE);
 		
         VerticalLayout tableLayout = new VerticalLayout();
