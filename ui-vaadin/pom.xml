@@ -12,8 +12,8 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>10</maven.compiler.source>
+		<maven.compiler.target>10</maven.compiler.target>
 		<vaadin.version>10.0.5</vaadin.version>
 	</properties>
 
@@ -31,12 +31,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>mockito-core</artifactId>
-					<groupId>org.mockito</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -69,12 +63,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<artifactId>mockito-core</artifactId>
-			<groupId>org.mockito</groupId>
-			<version>2.23.0</version><!--$NO-MVN-MAN-VER$-->
-			<scope>test</scope>
-		</dependency>
 
 	</dependencies>
 
