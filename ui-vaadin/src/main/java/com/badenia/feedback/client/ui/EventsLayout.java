@@ -19,28 +19,34 @@ import com.vaadin.flow.router.Route;
 public class EventsLayout extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 
-	private H2 header;
-    private Grid<Event> grid;
+	private VerticalLayout tableLayout;
 
     private IFeedbackClientService service;
     
     public EventsLayout() {
-    	this.header = new H2("Übersicht Events");
-		this.grid = new Grid<Event>();
 		this.service = new FeedbackClientService();
 		
 		this.initView();
-		this.initTable();
+		
+		this.tableLayout = this.createTableLayout();
+		add(this.tableLayout);
+		
 		this.updateTableContent();
 	}
     
-    public Grid<Event> getGrid() {
-		return grid;
+    private VerticalLayout getTableLayout() {
+		return tableLayout;
 	}
     
-    public H2 getHeader() {
-		return header;
+    private H2 getHeader() {
+    	return (H2)getTableLayout().getComponentAt(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Grid<Event> getGrid() {
+		return (Grid<Event>)getTableLayout().getComponentAt(1);
 	}
+    
     
     public IFeedbackClientService getService() {
 		return service;
@@ -51,16 +57,19 @@ public class EventsLayout extends VerticalLayout {
         setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
     }
     
-	private void initTable() {
-        VerticalLayout container = new VerticalLayout();
-        container.setClassName("view-container");
-        container.setAlignItems(Alignment.STRETCH);
+	private VerticalLayout createTableLayout() {
+		H2 header = new H2("Übersicht Events");
+		
+		Grid<Event> grid = new Grid<Event>();
+		grid.addColumn(Event::getName).setHeader("Event").setWidth("8em").setResizable(true);
+		grid.setSelectionMode(SelectionMode.NONE);
+		
+        VerticalLayout tableLayout = new VerticalLayout();
+        tableLayout.setClassName("view-container");
+        tableLayout.setAlignItems(Alignment.STRETCH);
+        tableLayout.add(header, grid);
 
-        getGrid().addColumn(Event::getName).setHeader("Event").setWidth("8em").setResizable(true);
-        getGrid().setSelectionMode(SelectionMode.NONE);
-
-        container.add(getHeader(), getGrid());
-        add(container);
+        return tableLayout;
     }
 	
     private void updateTableContent() {
