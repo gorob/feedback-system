@@ -10,7 +10,7 @@
 	<artifactId>service-rest</artifactId>
 
 	<properties>
-		<java.version>10</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
