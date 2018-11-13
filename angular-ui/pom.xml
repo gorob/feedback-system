@@ -70,8 +70,10 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
-							<executable>ng</executable>
+							<executable>npm</executable>
 							<arguments>
+								<argument>run</argument>
+								<argument>ng</argument>
 								<argument>build</argument>
 								<argument>--base-href=/ngfirst/ng/</argument>
 							</arguments>

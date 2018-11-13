@@ -963,7 +963,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_3__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/andreisava/git/feedback-system/angular-ui/src/main/ngapp/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /data/github/feedback-system/angular-ui/src/main/ngapp/src/main.ts */"./src/main.ts");
 
 
 /***/ })
