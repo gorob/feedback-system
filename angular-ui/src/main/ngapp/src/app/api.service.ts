@@ -33,15 +33,15 @@ export class APIService implements OnInit {
   }
 
 
-  public getEventsAsJson(): Promise<Event[]> {
-    return this.http
-               .get<Event>(this.endPoint + '/events').pipe(
-               .map(response => {
-                   const array = JSON.parse(response.json()) as any[]; // TODO hier muss was
-                   const details = array.map(data => new Event(data));
-                   return details;
-               })).toPromise();
-  }
+  // public getEventsAsJson(): Promise<Event[]> {
+  //   return this.http
+  //              .get<Event>(this.endPoint + '/events')
+  //              .map(response => {
+  //                  const array = JSON.parse(response.json()) as any[]; // TODO hier muss was
+  //                  const details = array.map(data => new Event(data.id, data.name, data.question));
+  //                  return details;
+  //              }).toPromise();
+  // }
 
   getEventsFromApi(): Observable<any> {
     return this.http.get(this.endPoint + '/events')

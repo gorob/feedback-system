@@ -36,7 +36,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _model_event_model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./model/event.model */ "./src/app/model/event.model.ts");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _model_event_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./model/event.model */ "./src/app/model/event.model.ts");
+/* harmony import */ var _model_question_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./model/question.model */ "./src/app/model/question.model.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -46,6 +48,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -67,16 +71,56 @@ var APIService = /** @class */ (function () {
     };
     APIService.prototype.ngOnInit = function () {
     };
+    // public getEventsAsJson(): Promise<Event[]> {
+    //   return this.http
+    //              .get<Event>(this.endPoint + '/events')
+    //              .map(response => {
+    //                  const array = JSON.parse(response.json()) as any[]; // TODO hier muss was
+    //                  const details = array.map(data => new Event(data.id, data.name, data.question));
+    //                  return details;
+    //              }).toPromise();
+    // }
     APIService.prototype.getEventsFromApi = function () {
         return this.http.get(this.endPoint + '/events')
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(this.extractData));
     };
     APIService.prototype.getEvents = function () {
-        return this.eventss = [new _model_event_model__WEBPACK_IMPORTED_MODULE_3__["Event"](1, 'aaa', 'bbb')];
-        // this.getEventsFromApi().subscribe((data?: []) => {
-        // this.parseData(data);
-        // });
-        // return this.eventss;
+        var _this = this;
+        this.eventss = [];
+        this.getEventsFromApi().subscribe(function (data) {
+            _this.parseData(data);
+        });
+        return this.eventss;
+    };
+    APIService.prototype.parseData = function (jsonData) {
+        console.log(jsonData[0]);
+        console.log('lenght ' + jsonData.length);
+        for (var i = 0; jsonData.length; i++) {
+            var questionsList = void 0;
+            questionsList = [];
+            // for (let j = 0; jsonData[i]['questions'].length - 1; j++) {
+            //   const question = new Question(jsonData[i]['questions'][j]['id'], jsonData[i]['questions'][j]['questionName']);
+            //   questionsList[j] = question;
+            // }
+            var question = new _model_question_model__WEBPACK_IMPORTED_MODULE_5__["Question"](1, 'Wie hat das Essen heute geschmeckt?');
+            questionsList[0] = question;
+            console.log('Fragen');
+            console.log(jsonData[i]['name']);
+            console.log(questionsList);
+            var data = new _model_event_model__WEBPACK_IMPORTED_MODULE_4__["Event"](jsonData[i]['id'], jsonData[i]['name'], questionsList);
+            this.eventss.push(data);
+        }
+    };
+    APIService.prototype.handleError = function (operation, result) {
+        if (operation === void 0) { operation = 'operation'; }
+        return function (error) {
+            // TODO: send the error to remote logging infrastructure
+            console.error(error); // log to console instead
+            // TODO: better job of transforming error for user consumption
+            console.log(operation + " failed: " + error.message);
+            // Let the app keep running by returning an empty result.
+            return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["of"])(result);
+        };
     };
     APIService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
@@ -105,12 +149,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.module */ "./src/app/app.module.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -124,6 +170,7 @@ var AppBrowserModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_3__["BrowserModule"].withServerTransition({ appId: 'app-root' }),
                 _app_module__WEBPACK_IMPORTED_MODULE_1__["AppModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_4__["BrowserAnimationsModule"],
             ]
         })
     ], AppBrowserModule);
@@ -141,7 +188,7 @@ var AppBrowserModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 
@@ -338,7 +385,7 @@ var CustomMaterialModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".firstFormat {\n  text-align: -webkit-center;\n}"
+module.exports = ".firstFormat {\n  text-align: -webkit-center;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvZmlyc3QvZmlyc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLDJCQUEyQjtDQUM1QiIsImZpbGUiOiJzcmMvYXBwL2ZpcnN0L2ZpcnN0LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZmlyc3RGb3JtYXQge1xuICB0ZXh0LWFsaWduOiAtd2Via2l0LWNlbnRlcjtcbn0iXX0= */"
 
 /***/ }),
 
@@ -411,7 +458,7 @@ var FirstComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2hvbWUtbGF5b3V0L2hvbWUtbGF5b3V0LmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -474,7 +521,7 @@ var HomeLayoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xvZ2luLWxheW91dC9sb2dpbi1sYXlvdXQuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -537,7 +584,7 @@ var LoginLayoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5jc3MifQ== */"
 
 /***/ }),
 
@@ -625,6 +672,28 @@ var Event = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/model/question.model.ts":
+/*!*****************************************!*\
+  !*** ./src/app/model/question.model.ts ***!
+  \*****************************************/
+/*! exports provided: Question */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Question", function() { return Question; });
+var Question = /** @class */ (function () {
+    function Question(id, questionName) {
+        this.id = id;
+        this.questionName = questionName;
+    }
+    return Question;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/navigation/navigation.component.css":
 /*!*****************************************************!*\
   !*** ./src/app/navigation/navigation.component.css ***!
@@ -632,7 +701,7 @@ var Event = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".example-container {\n  height: 50%;\n  margin: 10px;\n}\n"
+module.exports = ".example-container {\n  height: 50%;\n  margin: 10px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbmF2aWdhdGlvbi9uYXZpZ2F0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxZQUFZO0VBQ1osYUFBYTtDQUNkIiwiZmlsZSI6InNyYy9hcHAvbmF2aWdhdGlvbi9uYXZpZ2F0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZXhhbXBsZS1jb250YWluZXIge1xuICBoZWlnaHQ6IDUwJTtcbiAgbWFyZ2luOiAxMHB4O1xufVxuIl19 */"
 
 /***/ }),
 
@@ -677,7 +746,7 @@ var NavigationComponent = /** @class */ (function () {
         this.questionsArray = [];
     }
     NavigationComponent.prototype.ngOnInit = function () {
-        this.eventsArray = this.apiService.getEvents();
+        this.eventsArray = this.apiService.getEvents(); // this.apiService.getEvents();
     };
     NavigationComponent.prototype.setQuestionsForId = function (id) {
         for (var i = 0; this.eventsArray.length - 1; i++) {
@@ -711,7 +780,7 @@ var NavigationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3NlY29uZC9zZWNvbmQuY29tcG9uZW50LmNzcyJ9 */"
 
 /***/ }),
 
@@ -774,7 +843,7 @@ var SecondComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3Rvb2xiYXIvdG9vbGJhci5jb21wb25lbnQuY3NzIn0= */"
 
 /***/ }),
 

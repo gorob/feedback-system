@@ -16,7 +16,7 @@ export class NavigationComponent implements OnInit {
   constructor(private apiService: APIService) { }
 
   ngOnInit() {
-    this.eventsArray = this.apiService.getEventsAsJson(); // this.apiService.getEvents();
+    this.eventsArray = this.apiService.getEvents(); // this.apiService.getEvents();
   }
 
   setQuestionsForId(id) {
