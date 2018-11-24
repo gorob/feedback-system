@@ -23,9 +23,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="event, rowStat: ${events}" th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                    <tr th:each="event, rowStat: ${events}" 
+                    th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'"
+                    th:onClick="location.href='/questions'">
                         <td th:text="${event.id}">1</td>
-                        <td th:text="${event.name}">Jack</td>
+                        <td th:text="${event.name}">EventName</td>
                     </tr>
                 </tbody>
             </table>

@@ -13,21 +13,19 @@
 
 <body>
     <div class="container">
-        <h1>Events Table</h1>
+        <h1>Questions Table</h1>
         <div class="row col-md-7 table-responsive">
-            <table id="eventsTable" class="table">
+            <table id="questionsTable" class="table">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Question</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="event, rowStat: ${events}" 
-                    th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'"
-                    th:onClick="location.href='/questions'">
-                        <td th:text="${event.id}">1</td>
-                        <td th:text="${event.name}">EventName</td>
+                    <tr th:each="question, rowStat: ${questions}" th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                        <td th:text="${question.id}">1</td>
+                        <td th:text="${question.questionName}">Jack</td>
                     </tr>
                 </tbody>
             </table>
