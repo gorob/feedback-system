@@ -1,0 +1,27 @@
+server:
+  port: ${PORT:8081}
+
+messages:
+  home: Hello, Memorynotfound!
+
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    # excluded-view-names:
+    # mode: HTML5
+    # prefix: /templates/
+    # suffix: .html
+    # template-resolver-order:
+    # view-names:
+
+logging:
+  level:
+      - ".=info"
+      - "com.memorynotfound=debug"
+      - "org.springframework=info"
