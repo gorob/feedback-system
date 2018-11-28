@@ -20,18 +20,23 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="event, rowStat: ${events}" 
-                    th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'"
-                    th:onClick="location.href='/questions'">
-                        <td th:text="${event.id}">1</td>
-                        <td th:text="${event.name}">EventName</td>
-                    </tr>
+                    <form th:each="event, rowStat: ${events}" 
+                    th:action="@{/events}" 
+                    th:object="${event}" method="POST">
+                        <tr th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
+                            <td th:text="${event.id}"  type="text" th:field="*{id}">1</td>
+                            <td th:text="${event.name}" type="text" th:field="*{name}">EventName</td>
+                            <td><input type="submit" value=">>"/></td>
+                        </tr>
+                    </form>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
+
 </html>
