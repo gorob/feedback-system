@@ -13,10 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.badenia.feedback.thymeleaf.model.Event;
-import com.badenia.feedback.thymeleaf.model.Question;
-import com.badenia.feedback.thymeleaf.service.FeedbackClientService;
-import com.badenia.feedback.thymeleaf.service.IFeedbackClientService;
+import com.feedback.service.client.IFeedbackClientService;
+import com.feedback.service.client.impl.FeedbackClientService;
+import com.feedback.service.client.model.Event;
+import com.feedback.service.client.model.Question;
 
 import lombok.Getter;
 

@@ -5,14 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.badenia.feedback.thymeleaf.model.Event;
-import com.badenia.feedback.thymeleaf.model.Question;
-import com.badenia.feedback.thymeleaf.service.FeedbackClientService;
-import com.badenia.feedback.thymeleaf.service.IFeedbackClientService;
+import com.feedback.service.client.IFeedbackClientService;
+import com.feedback.service.client.impl.FeedbackClientService;
+import com.feedback.service.client.model.Event;
+import com.feedback.service.client.model.Question;
 
 @Controller
 public class QuestionsController {
