@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,8 @@ import lombok.Getter;
 @Getter
 @Controller
 public class EventsController {
+	
+	private static final Logger LOGGER = LogManager.getLogger(EventsController.class);
 	
 	IFeedbackClientService serviceReposiroty = new FeedbackClientService();
 	private List<Event> allEvents;
@@ -47,7 +51,7 @@ public class EventsController {
 	
 	@PostMapping("/events")
 	public View getQuestionsToEvent(Model model, @ModelAttribute("event") Event event) {
-		System.out.println(event.getId());
+		LOGGER.info(event.getId());
 		List<Question> allQuestionsToEvent = getQuestionsToEventPrivate(event);
 		model.addAttribute("questions", allQuestionsToEvent);
 		return new RedirectView("/questions");
