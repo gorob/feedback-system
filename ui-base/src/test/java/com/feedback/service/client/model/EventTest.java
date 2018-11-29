@@ -1,4 +1,4 @@
-package com.badenia.feedback.thymeleaf.model;
+package com.feedback.service.client.model;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,17 +1,15 @@
-package com.badenia.feedback.thymeleaf.model;
+package com.feedback.service.client.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Question {
-
-	public Question() {
-		// TODO Auto-generated constructor stub
-	}
 
 	private Long id;
 	

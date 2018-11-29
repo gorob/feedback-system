@@ -1,14 +1,19 @@
-package com.badenia.feedback.thymeleaf.model;
+package com.feedback.service.client.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
 	private Long id;
@@ -23,6 +28,4 @@ public class Event {
 		return "[" + anzahl + " " + frageStr + "]";
 	}
 
-	public Event() {
-	}
 }

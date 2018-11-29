@@ -1,8 +1,8 @@
-package com.badenia.feedback.thymeleaf.service;
+package com.feedback.service.client;
 
 import java.util.List;
 
-import com.badenia.feedback.thymeleaf.model.Event;
+import com.feedback.service.client.model.Event;
 
 public interface IFeedbackClientService {
 	

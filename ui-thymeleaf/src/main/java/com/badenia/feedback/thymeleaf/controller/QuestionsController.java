@@ -9,16 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.badenia.feedback.thymeleaf.model.Event;
-import com.badenia.feedback.thymeleaf.model.Question;
-import com.badenia.feedback.thymeleaf.service.FeedbackClientService;
-import com.badenia.feedback.thymeleaf.service.IFeedbackClientService;
+import com.feedback.service.client.IFeedbackClientService;
+import com.feedback.service.client.impl.FeedbackClientService;
+import com.feedback.service.client.model.Event;
+import com.feedback.service.client.model.Question;
 
 @Controller
 public class QuestionsController {
-	
-IFeedbackClientService serviceReposiroty = new FeedbackClientService();
-	
+
+	private IFeedbackClientService serviceReposiroty = new FeedbackClientService();
+
 	@GetMapping("/questions")
 	public String index(Model model, HttpServletRequest request) {
 		List<Event> allEvents = serviceReposiroty.leseAlleEvents();
@@ -35,10 +35,8 @@ IFeedbackClientService serviceReposiroty = new FeedbackClientService();
 				return event.getQuestions();
 			}
 		}
-		
+
 		return new ArrayList<Question>();
 	}
-	
-	
 
 }
