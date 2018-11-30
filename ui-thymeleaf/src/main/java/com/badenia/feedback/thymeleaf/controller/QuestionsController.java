@@ -26,6 +26,7 @@ public class QuestionsController {
 		int idEvent = Integer.parseInt(attribute);
 		List<Question> allQuestionsToEvent = getQuestionsToEvent(allEvents, idEvent);
 		model.addAttribute("questions", allQuestionsToEvent);
+		model.addAttribute("eventId", attribute);
 		return "questions";
 	}
 

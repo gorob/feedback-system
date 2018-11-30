@@ -30,27 +30,14 @@
 </nav>
 
 <body class="bg-light text-dark">
-    <div class="container">
-        <h1>Questions
-            <button type="button" class="btn btn-dark" th:onclick="window.location.href='/newQuestion'">New</button>
-        </h1>
-        <div class="row col-md-7 table-responsive">
-            <table id="questionsTable" class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Question</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="question, rowStat: ${questions}" th:style="${rowStat.odd} ? 'color: gray' : 'color: blue;'">
-                        <td th:text="${question.id}">1</td>
-                        <td th:text="${question.questionName}">Jack</td>
-                    </tr>
-                </tbody>
-            </table>
+    <br>
+    <form action="#" th:action="@{/newQuestion}" th:object="${question}" method="post">
+        <div class="form-group container">
+        <input class="form-control" type="text" th:field="*{questionName}" th:errorclass="fieldError"/>
         </div>
-    </div>
+        <div class="form-group container">
+        <p><input type="submit" value="Submit" class="btn btn-dark"/></p>
+        </div>
+    </form>
 </body>
-
 </html>
