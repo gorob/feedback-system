@@ -8,21 +8,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.feedback.service.client.model.Question;
+import com.badenia.feedback.thymeleaf.ui.model.UiQuestionTM;
 
 @Controller
 public class NewQuestionController {
-
+	
 	@GetMapping("/newQuestion")
 	public String get(Model model, HttpServletRequest request) {
-		model.addAttribute(new Question());
+		String parameter = request.getParameter("eventId");
+		int idEvent = Integer.parseInt(parameter);
+		UiQuestionTM questionTM = new UiQuestionTM();
+		questionTM.setEventId((long) idEvent);
+		model.addAttribute("questionTM", questionTM);
 		return "snipperNewQuestion";
 	}
 	
 	@PostMapping("/newQuestion")
-    public String post(@ModelAttribute Question question) {
-		System.out.println(question.getQuestionName());
-		return "redirect:/events";
+    public String post(@ModelAttribute UiQuestionTM questionTM) {
+		System.out.println(questionTM.getQuestionName());
+		System.out.println("Eventid: " + questionTM.getEventId());
+		//TODO Question in DB speichern die questions lese alle questions zu dem Event
+		return "redirect:/questions?param=" + questionTM.getEventId();
     }
 
 }
