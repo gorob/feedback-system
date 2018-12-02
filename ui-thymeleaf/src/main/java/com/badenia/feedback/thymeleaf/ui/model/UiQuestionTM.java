@@ -1,5 +1,7 @@
 package com.badenia.feedback.thymeleaf.ui.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +18,11 @@ public class UiQuestionTM {
 	private String questionName;
 
 	private Long eventId;
+	
+	private String answerFreeText;
+	
+	private String answerSmyles;
+	
+	private List<String> answerTypes;
 
 }
