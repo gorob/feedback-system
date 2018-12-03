@@ -36,14 +36,11 @@
             <input class="invisible" th:field="*{eventId}"/><br/>
             <label for="question">New question:</label>
             <div class="input-group">
-                <input class="form-control" type="text" th:field="*{questionName}" th:errorclass="fieldError" placeholder="Enter question"/>
+                <input class="form-control" type="text" th:field="*{questionName}" required="required" placeholder="Enter question"/>
                 <div class="input-group-append">
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Answer type...</option>
-                        <option th:value="true" th:field="*{answerFreeText}">Freetext</option>
-                        <option th:value="true" th:field="*{answerSmyles}">Smileys</option>
-                        <!-- <option th:each="answerType : ${answerTypes}" th:value="${answerType}"></option> -->
-
+                    <select class="custom-select" id="inputGroupSelect01" th:field="*{answerTypeId}" required="required">
+                        <option selected value="">Answer type...</option>
+                        <option th:each="answerTypeTM : ${answerTypes}" th:text="${answerTypeTM.answerType}" th:value="${answerTypeTM.id}"></option>
                     </select>
                 </div>
             </div>

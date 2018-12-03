@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UiQuestionTM {
-
-	private Long id;
-
-	private String questionName;
-
-	private Long eventId;
+public class AnswerTypeTM {
 	
-	private Long answerTypeId;
+	private long id;
+	private String answerType;
+
 }
