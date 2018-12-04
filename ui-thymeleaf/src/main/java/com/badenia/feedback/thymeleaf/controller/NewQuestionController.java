@@ -19,10 +19,12 @@ public class NewQuestionController {
 	
 	@GetMapping("/newQuestion")
 	public String get(Model model, HttpServletRequest request) {
-		String parameter = request.getParameter("eventId");
-		int idEvent = Integer.parseInt(parameter);
 		UiQuestionTM questionTM = new UiQuestionTM();
-		questionTM.setEventId((long) idEvent);
+		String parameter = request.getParameter("eventId");
+		if(parameter != null) {
+			long idEvent = Long.parseLong(parameter);
+			questionTM.setEventId(idEvent);
+			}
 		List<AnswerTypeTM> answerTypes = new ArrayList<AnswerTypeTM>();
 		answerTypes.add(new AnswerTypeTM(1L, "Freetext"));
 		answerTypes.add(new AnswerTypeTM(2L, "Smiley"));
