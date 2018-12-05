@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
+import com.badenia.feedback.feedbacksystem.service.model.QuestionType;
 import com.badenia.feedback.feedbacksystem.service.repository.EventRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.model.EventTableModel;
@@ -40,7 +41,7 @@ class FeedbackServiceImpl implements IFeedbackService {
 	}
 
 	protected Question map(QuestionTableModel question) {
-		return Question.builder().id(question.getId()).questionName(question.getQuestionTitle()).build();
+		return Question.builder().id(question.getId()).questionName(question.getQuestionTitle()).questionType(QuestionType.getForDBId(question.getQuestionTypeId())).build();
 	}
 
 	@Override
