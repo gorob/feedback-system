@@ -45,7 +45,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="question, rowStat: ${questions}" th:style="${rowStat.odd} ? 'color: black' : 'color: black;'">
+                    <tr th:each="question, rowStat: ${questions}" th:style="${rowStat.odd} ? 'color: black' : 'color: black;'"
+                    th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|">
                         <td th:text="${question.id}">1</td>
                         <td th:text="${question.questionName}">Jack</td>
                     </tr>

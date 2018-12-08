@@ -44,14 +44,16 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                         <tr th:style="${rowStat.odd} ? 'color: black' : 'color: black;'"
                         th:each="event, rowStat: ${events}"
-                        th:onclick="'javascript:rowClicked(\'' + ${event.id} + '\');'">
-                            <td th:text="${event.id}" >1</td>
-                            <td th:text="${event.name}" >EventName</td>
+                        >
+                            <td th:text="${event.id}" th:onclick="'javascript:rowClicked(\'' + ${event.id} + '\');'">1</td>
+                            <td th:text="${event.name}" th:onclick="'javascript:rowClicked(\'' + ${event.id} + '\');'">EventName</td>
+                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newEvent(eventId=${event.id})}'|">...</button> </td>
                         </tr>
                 </tbody>
             </table>
