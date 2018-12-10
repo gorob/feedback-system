@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
@@ -45,9 +46,13 @@ class FeedbackServiceImpl implements IFeedbackService {
 	}
 
 	@Override
-	public Optional<Event> findEventById(Long id) {
+	public Event findEventById(Long id) throws EntityNotFoundException {
 		Optional<EventTableModel> event = getEventRepository().findById(id);
-		return event.isPresent() ? Optional.of(loadEvent(event.get())) : Optional.empty();
+		if (event.isPresent()) {
+			return loadEvent(event.get());
+		} else {
+			throw new EntityNotFoundException(Event.class, "id", id.toString());
+		}
 	}
 
 }

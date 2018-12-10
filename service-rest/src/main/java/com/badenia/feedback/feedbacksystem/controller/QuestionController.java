@@ -1,7 +1,6 @@
 package com.badenia.feedback.feedbacksystem.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
@@ -27,17 +27,12 @@ public class QuestionController {
 	private IFeedbackService feedbackService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<Question>> readAll(@PathVariable("eventId") Long eventId) {
-		Optional<Event> event = getFeedbackService().findEventById(eventId);
-		if (event.isPresent()) {
-			if (event.get().getQuestions().isEmpty()) {
-				return ResponseEntity.noContent().build();
-			} else {
-				return ResponseEntity.ok(event.get().getQuestions());
-			}
+	public ResponseEntity<List<Question>> readAll(@PathVariable("eventId") Long eventId) throws EntityNotFoundException {
+		Event event = getFeedbackService().findEventById(eventId);
+		if (event.getQuestions().isEmpty()) {
+			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.notFound().build();
-
+			return ResponseEntity.ok(event.getQuestions());
 		}
 	}
 

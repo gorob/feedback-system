@@ -1,5 +1,7 @@
 package com.badenia.feedback.feedbacksystem.service.model;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
@@ -16,6 +18,7 @@ public class Question {
 	
 	private String questionName;
 	
+	@NotNull
 	@JsonFormat(shape =Shape.STRING)
 	private QuestionType questionType;
 	
