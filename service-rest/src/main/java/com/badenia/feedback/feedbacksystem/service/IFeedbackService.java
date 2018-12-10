@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
+import com.badenia.feedback.feedbacksystem.service.model.Question;
 
 public interface IFeedbackService {
 
@@ -11,5 +12,6 @@ public interface IFeedbackService {
 	
 	Event findEventById(Long id) throws EntityNotFoundException;
 	
+	Question findQuestion(Long eventId, Long questionId) throws EntityNotFoundException;
 	
 }

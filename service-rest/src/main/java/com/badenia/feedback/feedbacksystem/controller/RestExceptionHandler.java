@@ -3,6 +3,7 @@ package com.badenia.feedback.feedbacksystem.controller;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import org.hibernate.exception.SQLGrammarException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +39,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(javax.persistence.EntityNotFoundException ex) {
         return buildResponseEntity(new ApiError(NOT_FOUND, ex));
+    }
+    
+    @ExceptionHandler(SQLGrammarException.class)
+    protected ResponseEntity<Object> handleSQLGramarException(SQLGrammarException ex) {
+    	return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     }
 
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {

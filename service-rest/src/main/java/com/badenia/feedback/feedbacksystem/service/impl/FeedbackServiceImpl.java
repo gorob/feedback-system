@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
+import com.badenia.feedback.feedbacksystem.service.model.Option;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
 import com.badenia.feedback.feedbacksystem.service.model.QuestionType;
 import com.badenia.feedback.feedbacksystem.service.repository.EventRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionOptionRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.model.EventTableModel;
+import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionOptionTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTableModel;
 
 import lombok.AccessLevel;
@@ -30,6 +33,9 @@ class FeedbackServiceImpl implements IFeedbackService {
 	@Autowired
 	QuestionRepository questionRepository;
 
+	@Autowired
+	QuestionOptionRepository questionOptionRepository;
+
 	@Override
 	public List<Event> findEvents() {
 		return getEventRepository().findAll().stream().map(this::loadEvent).collect(Collectors.toList());
@@ -42,7 +48,16 @@ class FeedbackServiceImpl implements IFeedbackService {
 	}
 
 	protected Question map(QuestionTableModel question) {
-		return Question.builder().id(question.getId()).questionName(question.getQuestionTitle()).questionType(QuestionType.getForDBId(question.getQuestionTypeId())).build();
+		List<QuestionOptionTableModel> questionOptions = getQuestionOptionRepository()
+				.findAllByQuestionTypeId(question.getQuestionTypeId());
+		return Question.builder().id(question.getId()).questionName(question.getQuestionTitle())
+				.questionType(QuestionType.getForDBId(question.getQuestionTypeId()))
+				.options(questionOptions.stream().map(this::map).collect(Collectors.toList())).build();
+	}
+
+	protected Option map(QuestionOptionTableModel option) {
+		return Option.builder().id(option.getId()).iconPath(option.getIconPath())
+				.optionalDescription(option.getOptionalDescription()).build();
 	}
 
 	@Override
@@ -52,6 +67,17 @@ class FeedbackServiceImpl implements IFeedbackService {
 			return loadEvent(event.get());
 		} else {
 			throw new EntityNotFoundException(Event.class, "id", id.toString());
+		}
+	}
+	
+	@Override
+	public Question findQuestion(Long eventId, Long questionId) throws EntityNotFoundException {
+		Event event = findEventById(eventId);
+		Optional<Question> question = event.getQuestions().stream().filter(q -> q.getId() == questionId).findFirst();
+		if (question.isPresent()) {
+			return question.get();
+		} else {
+			throw new EntityNotFoundException(Question.class, "id", questionId.toString());
 		}
 	}
 
