@@ -45,6 +45,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleSQLGramarException(SQLGrammarException ex) {
     	return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     }
+    
+    //@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleMethodArgumentNotValidException(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+    	return buildResponseEntity(new ApiError(BAD_REQUEST, ex));
+    }
 
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
 		return new ResponseEntity<>(apiError, apiError.getStatus());

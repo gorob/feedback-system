@@ -1,5 +1,6 @@
 package com.badenia.feedback.feedbacksystem.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,13 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
+import com.badenia.feedback.feedbacksystem.service.model.Answer;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
 import com.badenia.feedback.feedbacksystem.service.model.Option;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
 import com.badenia.feedback.feedbacksystem.service.model.QuestionType;
+import com.badenia.feedback.feedbacksystem.service.repository.AnswerRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.EventRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionOptionRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.model.AnswerTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.EventTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionOptionTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTableModel;
@@ -35,6 +39,9 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Autowired
 	QuestionOptionRepository questionOptionRepository;
+
+	@Autowired
+	AnswerRepository answerRepository;
 
 	@Override
 	public List<Event> findEvents() {
@@ -69,7 +76,7 @@ class FeedbackServiceImpl implements IFeedbackService {
 			throw new EntityNotFoundException(Event.class, "id", id.toString());
 		}
 	}
-	
+
 	@Override
 	public Question findQuestion(Long eventId, Long questionId) throws EntityNotFoundException {
 		Event event = findEventById(eventId);
@@ -79,6 +86,13 @@ class FeedbackServiceImpl implements IFeedbackService {
 		} else {
 			throw new EntityNotFoundException(Question.class, "id", questionId.toString());
 		}
+	}
+
+	@Override
+	public Long saveAnswer(Answer answer) throws EntityNotFoundException {
+		AnswerTableModel savedAnswer = getAnswerRepository().save(AnswerTableModel.builder().questionId(answer.getQuestionId())
+				.questionOptionId(answer.getOptionId()).remark(answer.getRemark()).answeredAt(new Date()).build());
+		return savedAnswer.getId();
 	}
 
 }

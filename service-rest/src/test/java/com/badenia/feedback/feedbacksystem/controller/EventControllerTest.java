@@ -27,7 +27,7 @@ public class EventControllerTest {
 	
 	@Autowired
 	MockMvc mockMvc;
-
+	
 	@Test
 	public void testGetEvents_NoEventsExists_ReturnsHttpStatusNoContent() throws Exception {
 		
