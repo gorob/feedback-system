@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.badenia.feedback.feedbacksystem.exceptions.EntityNotFoundException;
 import com.badenia.feedback.feedbacksystem.service.IFeedbackService;
 import com.badenia.feedback.feedbacksystem.service.model.Event;
-import com.badenia.feedback.feedbacksystem.service.model.Option;
 import com.badenia.feedback.feedbacksystem.service.model.Question;
 
 import lombok.AccessLevel;
@@ -49,17 +48,6 @@ public class QuestionController {
 			@PathVariable("questionId") Long questionId) throws EntityNotFoundException {
 		Question question = getFeedbackService().findQuestion(eventId, questionId);
 		return ResponseEntity.ok(question);
-	}
-
-	@GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, path = "/{questionId}/options")
-	public ResponseEntity<List<Option>> readOptions(@PathVariable Long eventId, @PathVariable Long questionId)
-			throws EntityNotFoundException {
-		Question question = getFeedbackService().findQuestion(eventId, questionId);
-		if (question.getOptions().isEmpty()) {
-			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.ok(question.getOptions());
-		}
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
