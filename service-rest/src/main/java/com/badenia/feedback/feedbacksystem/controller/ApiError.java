@@ -75,7 +75,6 @@ class ApiError {
 	private void addValidationError(FieldError fieldError) {
 		this.addValidationError(fieldError.getObjectName(), fieldError.getField(), fieldError.getRejectedValue(),
 				fieldError.getDefaultMessage());
-		;
 	}
 
 	void addValidationErrors(List<FieldError> fieldErrors) {
