@@ -1,5 +1,8 @@
 package com.badenia.feedback.feedbacksystem.service.model;
 
+import lombok.Getter;
+
+@Getter
 public enum QuestionType {
 
 	FREETEXT(1), THREE_SMILEYS(2), FIVE_SMILEYS(3), YES_NO(4);

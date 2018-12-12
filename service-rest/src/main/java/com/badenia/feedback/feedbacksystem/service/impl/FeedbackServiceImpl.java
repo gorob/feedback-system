@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,7 @@ import com.badenia.feedback.feedbacksystem.service.repository.AnswerRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.EventRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionOptionRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.QuestionRepository;
+import com.badenia.feedback.feedbacksystem.service.repository.QuestionTypeRepository;
 import com.badenia.feedback.feedbacksystem.service.repository.model.AnswerTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.EventTableModel;
 import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionOptionTableModel;
@@ -27,6 +32,7 @@ import com.badenia.feedback.feedbacksystem.service.repository.model.QuestionTabl
 import lombok.AccessLevel;
 import lombok.Getter;
 
+@Transactional
 @Service
 @Getter(value = AccessLevel.PROTECTED)
 class FeedbackServiceImpl implements IFeedbackService {
@@ -36,6 +42,9 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Autowired
 	QuestionRepository questionRepository;
+
+	@Autowired
+	QuestionTypeRepository questionTypeRepository;
 
 	@Autowired
 	QuestionOptionRepository questionOptionRepository;
@@ -90,9 +99,25 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Override
 	public Long saveAnswer(Answer answer) throws EntityNotFoundException {
-		AnswerTableModel savedAnswer = getAnswerRepository().save(AnswerTableModel.builder().questionId(answer.getQuestionId())
-				.questionOptionId(answer.getOptionId()).remark(answer.getRemark()).answeredAt(new Date()).build());
+		Optional<QuestionTableModel> question = getQuestionRepository().findById(answer.getQuestionId());
+		Optional<QuestionOptionTableModel> option = getQuestionOptionRepository().findById(answer.getOptionId());
+
+		AnswerTableModel savedAnswer = getAnswerRepository().save(
+				AnswerTableModel.builder().questionId(question.get().getId()).questionOptionId(option.get().getId())
+						.remark(answer.getRemark()).answeredAt(new Date()).build());
 		return savedAnswer.getId();
+	}
+
+	@Override
+	public Long saveEvent(@Valid Event event) {
+		return getEventRepository().save(EventTableModel.builder().name(event.getName()).build()).getId();
+	}
+
+	@Override
+	public Long save(@NotNull Long eventId, @Valid Question question) {
+		return getQuestionRepository().save(QuestionTableModel.builder().eventId(eventId)
+				.questionTitle(question.getQuestionName()).questionTypeId(question.getQuestionType().getDbId()).build())
+				.getId();
 	}
 
 }

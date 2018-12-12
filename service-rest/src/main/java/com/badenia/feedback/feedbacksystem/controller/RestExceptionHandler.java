@@ -3,6 +3,8 @@ package com.badenia.feedback.feedbacksystem.controller;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import javax.validation.ConstraintViolationException;
+
 import org.hibernate.exception.SQLGrammarException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -53,6 +55,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
 		return new ResponseEntity<>(apiError, apiError.getStatus());
+	}
+	
+	@ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
+	protected ResponseEntity<Object> handleSQLConstraintException(org.hibernate.exception.ConstraintViolationException e) {
+		return buildResponseEntity(new ApiError(BAD_REQUEST, e));
 	}
 
 }

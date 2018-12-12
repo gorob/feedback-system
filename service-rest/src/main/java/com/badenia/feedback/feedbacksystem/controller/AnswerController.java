@@ -2,7 +2,6 @@ package com.badenia.feedback.feedbacksystem.controller;
 
 import java.net.URI;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ public class AnswerController {
 	@Autowired
 	private IFeedbackService feedbackService;
 
-	@Transactional
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<?> saveAnswer(@Valid @RequestBody Answer model) throws EntityNotFoundException {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
