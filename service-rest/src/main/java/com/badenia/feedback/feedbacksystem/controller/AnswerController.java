@@ -29,7 +29,7 @@ public class AnswerController {
 	private IFeedbackService feedbackService;
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> saveAnswer(@Valid @RequestBody Answer model) throws EntityNotFoundException {
+	public ResponseEntity<Object> saveAnswer(@Valid @RequestBody Answer model) throws EntityNotFoundException {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(getFeedbackService().saveAnswer(model)).toUri();
 		return ResponseEntity.created(uri).build();

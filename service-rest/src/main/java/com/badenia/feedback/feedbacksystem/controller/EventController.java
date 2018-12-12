@@ -49,7 +49,7 @@ public class EventController {
 	}
 	
 	@PostMapping( consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event) {
+	public ResponseEntity<Object> createEvent(@Valid @RequestBody Event event) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(getFeedbackService().saveEvent(event)).toUri();
 		return ResponseEntity.created(uri).build();

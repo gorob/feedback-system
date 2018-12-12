@@ -51,7 +51,7 @@ public class QuestionController {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<?> createQuestion(@PathVariable("eventId") Long eventId,
+	public ResponseEntity<Object> createQuestion(@PathVariable("eventId") Long eventId,
 			@Valid @RequestBody Question question) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(getFeedbackService().save(eventId, question)).toUri();

@@ -3,6 +3,8 @@ package com.badenia.feedback.feedbacksystem.controller;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import java.util.stream.Collectors;
+
 import javax.validation.ConstraintViolationException;
 
 import org.hibernate.exception.SQLGrammarException;
@@ -10,7 +12,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +35,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		return buildResponseEntity(new ApiError(BAD_REQUEST, error, ex));
 	}
 	
+	@Override
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(ex.getContentType());
+		sb.append(" media type is not supported. Supported media types are ");
+		sb.append(ex.getSupportedMediaTypes().stream().map(MediaType::toString).collect(Collectors.joining(",")));
+		return buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, sb.toString(), ex));
+	}
 	
 	@ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
@@ -48,13 +62,26 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     	return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex));
     }
     
-    //@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
-    protected ResponseEntity<Object> handleMethodArgumentNotValidException(org.springframework.web.bind.MethodArgumentNotValidException ex) {
-    	return buildResponseEntity(new ApiError(BAD_REQUEST, ex));
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+    		HttpHeaders headers, HttpStatus status, WebRequest request) {
+    	ApiError apiError = new ApiError(BAD_REQUEST);
+    	apiError.setMessage("Validation error");
+    	apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
+    	apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
+    	return buildResponseEntity(apiError);
     }
-
+    
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
 		return new ResponseEntity<>(apiError, apiError.getStatus());
+	}
+	
+	@ExceptionHandler(javax.validation.ConstraintViolationException.class)
+	protected ResponseEntity<Object> handleConstrainViolationException(ConstraintViolationException ex) {
+		ApiError apiError = new ApiError(BAD_REQUEST);
+		apiError.setMessage("Validation error");
+		apiError.addValidationErrors(ex.getConstraintViolations());
+		return buildResponseEntity(apiError);
 	}
 	
 	@ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)

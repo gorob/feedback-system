@@ -4,14 +4,14 @@
 package com.badenia.feedback.feedbacksystem.controller;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.Ignore;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +47,18 @@ public class AnswerControllerTest {
 	 * {@link com.badenia.feedback.feedbacksystem.controller.AnswerController#saveAnswer(com.badenia.feedback.feedbacksystem.service.model.Answer)}.
 	 */
 	@Test
-	@Ignore
 	public void testSaveAnswer_DateNotSpecified_ReturnBadRequest() throws Exception {
 
 		mockMvc.perform(post("/v1/feedback/answers").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 				.content(json.write(Answer.builder().optionId(2L).questionId(3L).build()).getJson())).andDo(print())
-				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.apierror.status", is("NOT_FOUND")))
-				.andExpect(jsonPath("$.apierror.message", is("Event was not found for parameters {id=20}")))
+				.andExpect(status().isBadRequest()).andExpect(jsonPath("$.apierror.status", is("BAD_REQUEST")))
+				.andExpect(jsonPath("$.apierror.message", is("Validation error")))
 				.andExpect(jsonPath("$.apierror.debugMessage", isEmptyOrNullString()))
-				.andExpect(jsonPath("$.apierror.subErrors", nullValue()));
+				.andExpect(jsonPath("$.apierror.subErrors", Matchers.hasSize(1)))
+				.andExpect(jsonPath("$.apierror.subErrors[0].object", is("answer")))
+				.andExpect(jsonPath("$.apierror.subErrors[0].field", is("answeredAt")))
+				.andExpect(jsonPath("$.apierror.subErrors[0].rejectedValue", nullValue()))
+				.andExpect(jsonPath("$.apierror.subErrors[0].message", is("must not be null")));
 
 	}
 
