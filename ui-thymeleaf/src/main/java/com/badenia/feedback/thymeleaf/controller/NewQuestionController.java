@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import com.badenia.feedback.thymeleaf.ui.model.UiQuestionTM;
 
 @Controller
 public class NewQuestionController {
+	
+	private static final Logger LOGGER = LogManager.getLogger(NewQuestionController.class);
 	
 	@GetMapping("/newQuestion")
 	public String get(Model model, HttpServletRequest request) {
@@ -34,8 +38,7 @@ public class NewQuestionController {
 			questionTM.setAnswerTypeId(1L);
 		}
 		
-		System.out.println("eventID:" + idEvent);
-		System.out.println("questionID:" + questionId);
+		LOGGER.debug("eventID: {}, questionID {}", idEvent, questionId);
 
 		List<AnswerTypeTM> answerTypes = new ArrayList<AnswerTypeTM>();
 		answerTypes.add(new AnswerTypeTM(1L, "Freetext"));
@@ -55,9 +58,7 @@ public class NewQuestionController {
 
 	@PostMapping("/newQuestion")
     public String post(@ModelAttribute UiQuestionTM questionTM) {
-		System.out.println(questionTM.getQuestionName());
-		System.out.println("Eventid: " + questionTM.getEventId());
-		System.out.println("AnswerTypeId: " + questionTM.getAnswerTypeId());
+		LOGGER.debug("QuestionName: {}, eventId: {}, AnswerTypeId: {}", questionTM.getQuestionName(), questionTM.getEventId(), questionTM.getAnswerTypeId());
 		//TODO Question in DB save or update
 		return "redirect:/questions?param=" + questionTM.getEventId();
     }

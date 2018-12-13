@@ -2,6 +2,8 @@ package com.badenia.feedback.thymeleaf.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,8 @@ import com.badenia.feedback.thymeleaf.ui.model.UIEventTM;
 @Controller
 public class NewEventController {
 
+	private static final Logger LOGGER = LogManager.getLogger(NewEventController.class);
+	
 	@GetMapping("/newEvent")
 	public String get(Model model, HttpServletRequest request) {
 		UIEventTM eventTM = new UIEventTM();
@@ -33,7 +37,7 @@ public class NewEventController {
 
 	@PostMapping("/newEvent")
 	public String post(@ModelAttribute UIEventTM eventTM) {
-		System.out.println(eventTM.getEventName());
+		LOGGER.traceEntry("Parameter {}", eventTM);
 		// TODO Event in DB speichern
 		return "redirect:/events";
 	}
