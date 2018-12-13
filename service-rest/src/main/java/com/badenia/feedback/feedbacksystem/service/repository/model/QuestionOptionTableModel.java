@@ -20,4 +20,10 @@ public class QuestionOptionTableModel {
 	@Column(name = "question_type_id")
 	private Long questionTypeId;
 	
+	@Column(name = "optionial_description")
+	private String optionalDescription;
+	
+	@Column(name = "icon_path")
+	private String iconPath;
+	
 }
