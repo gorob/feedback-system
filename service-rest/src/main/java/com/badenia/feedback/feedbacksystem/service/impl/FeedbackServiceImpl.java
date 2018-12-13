@@ -1,5 +1,6 @@
 package com.badenia.feedback.feedbacksystem.service.impl;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -99,12 +100,9 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Override
 	public Long saveAnswer(Answer answer) throws EntityNotFoundException {
-		Optional<QuestionTableModel> question = getQuestionRepository().findById(answer.getQuestionId());
-		Optional<QuestionOptionTableModel> option = getQuestionOptionRepository().findById(answer.getOptionId());
-
-		AnswerTableModel savedAnswer = getAnswerRepository().save(
-				AnswerTableModel.builder().questionId(question.get().getId()).questionOptionId(option.get().getId())
-						.remark(answer.getRemark()).answeredAt(new Date()).build());
+		AnswerTableModel savedAnswer = getAnswerRepository().save(AnswerTableModel.builder()
+				.questionId(answer.getQuestionId()).questionOptionId(answer.getOptionId()).remark(answer.getRemark())
+				.answeredAt(Date.from(answer.getAnsweredAt().atZone(ZoneId.systemDefault()).toInstant())).build());
 		return savedAnswer.getId();
 	}
 
