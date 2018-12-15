@@ -67,6 +67,7 @@ public class FeedbackClientService implements IFeedbackClientService {
 	public Event saveEvent(Event event) {
 		if (event.getId() != null) {
 			new RestTemplate().put(this.basePath + "/events/" + event.getId(), event);
+			LOGGER.info("updated Event: {}", event);
 		} else {
 			URI uri4CreatedEvent = new RestTemplate().postForLocation(this.basePath + "/events", event);
 			LOGGER.info("created Event: {}", uri4CreatedEvent);
@@ -82,4 +83,24 @@ public class FeedbackClientService implements IFeedbackClientService {
 		return response.getBody();
 	}
 
+	@Override
+	public Question readQuestion(Long eventId, Long questionId) {
+		ResponseEntity<Question> response = new RestTemplate().exchange(this.basePath + "/events/" + eventId 
+				+ "/questions/" + questionId, HttpMethod.GET,
+				null, new ParameterizedTypeReference<Question>() {
+				});
+		return response.getBody();
+	}
+
+	@Override
+	public Question saveQuestion(Long eventId, Question question) {
+		if (question.getId() != null) {
+			new RestTemplate().put(this.basePath + "/events/" + eventId + "/questions/" + question.getId(), question);
+			LOGGER.info("updated Question: {}", question);
+		} else {
+			URI uri4CreatedEvent = new RestTemplate().postForLocation(this.basePath + "/events/" + eventId + "/questions", question);
+			LOGGER.info("created Question: {}", uri4CreatedEvent);
+		}
+		return question;
+	}
 }

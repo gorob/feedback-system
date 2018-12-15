@@ -18,5 +18,10 @@ public interface IFeedbackClientService {
 
 	List<Option> leseAlleOptionenZuEinerFrage(Long eventId, Long questionId);
 	
+	Question readQuestion(Long eventId, Long questionId);
+	
+	Question saveQuestion(Long eventId, Question question);
+	
+	
 
 }
