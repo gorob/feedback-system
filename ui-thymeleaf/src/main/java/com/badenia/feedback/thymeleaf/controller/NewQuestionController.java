@@ -69,7 +69,8 @@ public class NewQuestionController extends AbstractController {
     public String post(@ModelAttribute UiQuestionTM questionTM) {
 		LOGGER.info("QuestionId: {}, QuestionName: {}, eventId: {}, AnswerTypeId: {}", questionTM.getId(), questionTM.getQuestionName(), questionTM.getEventId(), questionTM.getAnswerTypeId());
 		Question questionToSave = new Question(questionTM.getId(), questionTM.getQuestionName(), "THREE_SMILEYS");
-		getFeedbackService().saveQuestion(questionTM.getEventId(), questionToSave);
+//		getFeedbackService().saveQuestion(questionTM.getEventId(), questionToSave);
+		LOGGER.info("Question to Save: {}", questionToSave);
 		return "redirect:/questions?eventId=" + questionTM.getEventId();
     }
 

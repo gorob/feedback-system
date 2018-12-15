@@ -3,14 +3,32 @@
 
 <div th:replace="fragments/headerHead :: head">...</div>
 
-<div th:replace="fragments/headerNavBar :: header">...</div>
+<div th:replace="fragments/headerNavBarNoSearch :: headerNoSearch">...</div>
 
 <body class="bg-light text-dark bgsecond">
-	<div class="container">
 		<br> <br>
-		<h1>Answer</h1>
-		<div class="row col-md-7 table-responsive"></div>
-	</div>
+		<h1 th:text="${eventName}" style="text-align: center;">Event Formular</h1>
+		<form action="#" th:action="@{/answer}" method="post" id="main">
+			<div th:each="question, rowStat: ${questions}" class="form-group container">
+				<label for="${question.questionName}" th:text="${question.questionName}">New event:</label>
+				<div th:switch="${question.questionType}">
+					<div th:case="'FIVE_SMILEYS'">
+						<div th:replace="fragments/stars :: stars">...</div>
+					</div>
+					<div th:case="'YES_NO'">
+						<div th:replace="fragments/yes_no :: yesno">...</div>
+					</div>	
+					<div th:case="'FREETEXT'">
+						<input class="form-control" type="text" required="required" placeholder="Freetext" />
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="form-group container">
+            	<p><input type="submit" value="Submit" class="btn btn-dark btn-lg btn-block"/></p>
+        	</div>
+		
+		</form>
 </body>
 
 </html>

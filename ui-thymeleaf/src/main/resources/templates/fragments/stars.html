@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="stars form-group" th:fragment="stars" >
+  <form action="#" th:id="${question.id}">
+    <input class="star star-5" th:id="'star-5-' + ${question.id}" type="radio" name="star"/>
+    <label class="star star-5" th:for="'star-5-' + ${question.id}"></label>
+    <input class="star star-4" th:id="'star-4-' + ${question.id}" type="radio" name="star"/>
+    <label class="star star-4" th:for="'star-4-' + ${question.id}"></label>
+    <input class="star star-3" th:id="'star-3-' + ${question.id}" type="radio" name="star"/>
+    <label class="star star-3" th:for="'star-3-' + ${question.id}"></label>
+    <input class="star star-2" th:id="'star-2-' + ${question.id}" type="radio" name="star"/>
+    <label class="star star-2" th:for="'star-2-' + ${question.id}"></label>
+    <input class="star star-1" th:id="'star-1-' + ${question.id}" type="radio" name="star"/>
+    <label class="star star-1" th:for="'star-1-' + ${question.id}"></label>
+  </form>
+</div>
+
+</html>
