@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@SequenceGenerator(name ="SEQ_EVENT_GEN" , sequenceName = "SEQ_EVENT")
+@SequenceGenerator(name ="SEQ_EVENT_GEN" , sequenceName = "SEQ_EVENT", initialValue = 5, allocationSize = 50)
 public class EventTableModel {
 
 	@Id
