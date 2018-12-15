@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -70,6 +71,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     	apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
     	apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
     	return buildResponseEntity(apiError);
+    }
+    
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+    		HttpHeaders headers, HttpStatus status, WebRequest request) {
+    	return buildResponseEntity(new ApiError(BAD_REQUEST, ex));
     }
     
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {

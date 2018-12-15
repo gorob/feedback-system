@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.badenia.feedback.thymeleaf.ui.model.UIEventTM;
+import com.feedback.service.client.model.Event;
 
 @Controller
-public class NewEventController {
+public class NewEventController extends AbstractController {
 
 	private static final Logger LOGGER = LogManager.getLogger(NewEventController.class);
-	
+
 	@GetMapping("/newEvent")
 	public String get(Model model, HttpServletRequest request) {
 		UIEventTM eventTM = new UIEventTM();
@@ -26,9 +27,10 @@ public class NewEventController {
 		// Wurde Param questionId in dem URL mitgegeben, dann ist das ein Update ->
 		// Daten weiter geben
 		if (idEvent > 0) {
-			eventTM.setId(idEvent);
 			// TODO Read question to questionID and put this to the UI over questionTM
-			eventTM.setEventName("EventUpdate");
+			Event event = getFeedbackService().getEventById(idEvent);
+			eventTM.setEventName(event.getName());
+			eventTM.setId(event.getId());
 		}
 
 		model.addAttribute("eventTM", eventTM);
@@ -38,7 +40,8 @@ public class NewEventController {
 	@PostMapping("/newEvent")
 	public String post(@ModelAttribute UIEventTM eventTM) {
 		LOGGER.traceEntry("Parameter {}", eventTM);
-		// TODO Event in DB speichern
+		Event event = new Event(eventTM.getId(), eventTM.getEventName());
+		getFeedbackService().saveEvent(event);
 		return "redirect:/events";
 	}
 

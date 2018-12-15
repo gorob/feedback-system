@@ -1,43 +1,31 @@
 package com.badenia.feedback.thymeleaf.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.feedback.service.client.IFeedbackClientService;
-import com.feedback.service.client.impl.FeedbackClientService;
-import com.feedback.service.client.model.Event;
 import com.feedback.service.client.model.Question;
 
 @Controller
-public class QuestionsController {
+public class QuestionsController extends AbstractController {
 
-	private IFeedbackClientService serviceReposiroty = new FeedbackClientService();
-
-	@GetMapping("/questions")
-	public String index(Model model, HttpServletRequest request) {
-		List<Event> allEvents = serviceReposiroty.leseAlleEvents();
-		String attribute = request.getParameter("param");
-		int idEvent = Integer.parseInt(attribute);
-		List<Question> allQuestionsToEvent = getQuestionsToEvent(allEvents, idEvent);
+	@GetMapping(path = {"/questions"}, params = "eventId")
+	public String index(Model model, @RequestParam(required = true, name = "eventId") Long eventId) {
+		List<Question> allQuestionsToEvent = getFeedbackService().leseAlleFragenZuEvent(eventId);
 		model.addAttribute("questions", allQuestionsToEvent);
-		model.addAttribute("eventId", attribute);
+		model.addAttribute("eventId", eventId);
 		return "questions";
 	}
-
-	private List<Question> getQuestionsToEvent(List<Event> allEvents, int eventId) {
-		for (Event event : allEvents) {
-			if (event.getId() == eventId) {
-				return event.getQuestions();
-			}
-		}
-
-		return new ArrayList<Question>();
+	
+	@GetMapping(path = {"/answer"}, params = {"eventId", "questionId"})
+	public String index(Model model, @RequestParam(required = true, name = "eventId") Long eventId, @RequestParam(required = true, name = "questionId") Long questionId) {
+		List<Question> allQuestionsToEvent = getFeedbackService().leseAlleFragenZuEvent(eventId);
+		model.addAttribute("question", allQuestionsToEvent);
+		model.addAttribute("eventId", eventId);
+		return "answer";
 	}
 
 }

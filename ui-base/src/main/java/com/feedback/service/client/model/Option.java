@@ -12,12 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Question {
+public class Option {
 
 	private Long id;
-	
-	private String questionName;
-	
-	private String questionType;
-	
+	private String optionalDescription;
+	private String iconPath;
+
 }

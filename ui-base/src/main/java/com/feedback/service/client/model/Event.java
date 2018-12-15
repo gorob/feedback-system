@@ -1,7 +1,5 @@
 package com.feedback.service.client.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +18,4 @@ public class Event {
 	
 	private String name;
 	
-	private List<Question> questions;
-	
-	public String getNumberOfQuestionsStr() {
-		int anzahl = getQuestions()==null ? 0 : getQuestions().size();
-		String frageStr = "Frage" + (anzahl==1 ? "" : "n"); 
-		return "[" + anzahl + " " + frageStr + "]";
-	}
-
 }

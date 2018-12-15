@@ -17,7 +17,7 @@ import com.badenia.feedback.thymeleaf.ui.model.AnswerTypeTM;
 import com.badenia.feedback.thymeleaf.ui.model.UiQuestionTM;
 
 @Controller
-public class NewQuestionController {
+public class NewQuestionController extends AbstractController {
 	
 	private static final Logger LOGGER = LogManager.getLogger(NewQuestionController.class);
 	

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,13 +48,19 @@ public class EventController {
 	public ResponseEntity<Event> getEvent(@PathVariable long id) throws EntityNotFoundException {
 		return ResponseEntity.ok(getFeedbackService().findEventById(id));
 	}
-	
-	@PostMapping( consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Object> createEvent(@Valid @RequestBody Event event) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(getFeedbackService().saveEvent(event)).toUri();
+				.buildAndExpand(getFeedbackService().saveEvent(Event.builder().id(-1L).name(event.getName()).build())).toUri();
 		return ResponseEntity.created(uri).build();
-		
+
+	}
+
+	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Object> updateEvent(@PathVariable("id") Long id, @Valid @RequestBody Event event) {
+		getFeedbackService().saveEvent(Event.builder().id(id).name(event.getName()).build());
+		return ResponseEntity.noContent().build();
 	}
 
 }
