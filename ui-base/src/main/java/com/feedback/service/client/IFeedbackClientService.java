@@ -22,6 +22,12 @@ public interface IFeedbackClientService {
 	
 	Question saveQuestion(Long eventId, Question question);
 	
+	List<String> readAllSupportedQuestionTypes();
+	
+	void deleteEvent(long eventId);
+	
+	void deleteQuestion(long eventId, long questionId);
+	
 	
 
 }

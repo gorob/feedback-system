@@ -1,6 +1,7 @@
 package com.feedback.service.client.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -102,5 +103,29 @@ public class FeedbackClientService implements IFeedbackClientService {
 			LOGGER.info("created Question: {}", uri4CreatedEvent);
 		}
 		return question;
+	}
+	
+	@Override
+	public List<String> readAllSupportedQuestionTypes() {
+		List<String> allSupportedQuestionTypes = new ArrayList<>();
+		LOGGER.traceEntry();
+		ResponseEntity<List<String>> response = new RestTemplate().exchange(this.basePath + "/admin/questionTypes", HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {
+		});
+		allSupportedQuestionTypes.addAll(response.getBody());
+		return LOGGER.traceExit(allSupportedQuestionTypes);
+	}
+
+	@Override
+	public void deleteEvent(long eventId) {
+		LOGGER.traceEntry("with Parameters {}", eventId);
+		new RestTemplate().delete(this.basePath +"/events/" + eventId);
+		LOGGER.traceExit();
+	}
+
+	@Override
+	public void deleteQuestion(long eventId, long questionId) {
+		LOGGER.traceEntry("with Parameters {} and {}", eventId, questionId);
+		new RestTemplate().delete(this.basePath +"/events/" + eventId + "/questions/" + questionId);
+		LOGGER.traceExit();
 	}
 }

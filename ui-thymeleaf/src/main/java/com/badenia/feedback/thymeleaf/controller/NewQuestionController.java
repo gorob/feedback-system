@@ -1,10 +1,5 @@
 package com.badenia.feedback.thymeleaf.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -14,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.badenia.feedback.thymeleaf.ui.model.AnswerTypeTM;
 import com.badenia.feedback.thymeleaf.ui.model.UiQuestionTM;
 import com.feedback.service.client.model.Question;
 
@@ -32,11 +26,8 @@ public class NewQuestionController extends AbstractController {
 		
 		LOGGER.debug("eventID: {}, questionID {}", eventId);
 
-		List<AnswerTypeTM> answerTypes = new ArrayList<AnswerTypeTM>();
-		answerTypes.add(new AnswerTypeTM(1L, "Freetext"));
-		answerTypes.add(new AnswerTypeTM(2L, "Smiley"));
 		model.addAttribute("questionTM", questionTM);
-		model.addAttribute("answerTypes", answerTypes);
+		model.addAttribute("answerTypes", getFeedbackService().readAllSupportedQuestionTypes());
 		return "newQuestion";
 	}
 	
@@ -52,24 +43,21 @@ public class NewQuestionController extends AbstractController {
 
 			questionTM.setId(questionId);
 			questionTM.setQuestionName(question.getQuestionName());
-			questionTM.setAnswerTypeId(1L);
+			questionTM.setAnswerType(question.getQuestionType());
 		}
 		
 		LOGGER.info("eventID: {}, questionID {}", eventId, questionId);
 
-		List<AnswerTypeTM> answerTypes = new ArrayList<AnswerTypeTM>();
-		answerTypes.add(new AnswerTypeTM(1L, "Freetext"));
-		answerTypes.add(new AnswerTypeTM(2L, "Smiley"));
 		model.addAttribute("questionTM", questionTM);
-		model.addAttribute("answerTypes", answerTypes);
+		model.addAttribute("answerTypes", getFeedbackService().readAllSupportedQuestionTypes());
 		return "newQuestion";
 	}
 
 	@PostMapping("/newQuestion")
     public String post(@ModelAttribute UiQuestionTM questionTM) {
-		LOGGER.info("QuestionId: {}, QuestionName: {}, eventId: {}, AnswerTypeId: {}", questionTM.getId(), questionTM.getQuestionName(), questionTM.getEventId(), questionTM.getAnswerTypeId());
-		Question questionToSave = new Question(questionTM.getId(), questionTM.getQuestionName(), "THREE_SMILEYS");
-//		getFeedbackService().saveQuestion(questionTM.getEventId(), questionToSave);
+		LOGGER.info("QuestionId: {}, QuestionName: {}, eventId: {}, AnswerTypeId: {}", questionTM.getId(), questionTM.getQuestionName(), questionTM.getEventId(), questionTM.getAnswerType());
+		Question questionToSave = new Question(questionTM.getId(), questionTM.getQuestionName(), questionTM.getAnswerType());
+		getFeedbackService().saveQuestion(questionTM.getEventId(), questionToSave);
 		LOGGER.info("Question to Save: {}", questionToSave);
 		return "redirect:/questions?eventId=" + questionTM.getEventId();
     }

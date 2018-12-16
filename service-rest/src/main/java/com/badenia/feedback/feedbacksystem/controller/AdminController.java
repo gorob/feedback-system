@@ -20,9 +20,10 @@ import lombok.Getter;
 @Getter(value = AccessLevel.PROTECTED)
 public class AdminController {
 
-	@GetMapping(path = {"/questionTypes"},consumes = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = { "/questionTypes" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> readQuestionTypes() {
-		return ResponseEntity.ok(Arrays.asList(QuestionType.values()).stream().map(QuestionType::name).collect(Collectors.toList()));
+		return ResponseEntity
+				.ok(Arrays.asList(QuestionType.values()).stream().map(QuestionType::name).collect(Collectors.toList()));
 	}
-	
+
 }

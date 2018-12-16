@@ -14,9 +14,9 @@
             <div class="input-group">
                 <input class="form-control" type="text" th:field="*{questionName}" required="required" placeholder="Enter question"/>
                 <div class="input-group-append">
-                    <select class="custom-select" id="inputGroupSelect01" th:field="*{answerTypeId}" required="required">
+                    <select class="custom-select" id="inputGroupSelect01" th:field="*{answerType}" required="required">
                         <option selected value="">Answer type...</option>
-                        <option th:each="answerTypeTM : ${answerTypes}" th:text="${answerTypeTM.answerType}" th:value="${answerTypeTM.id}"></option>
+                        <option th:each="answerType : ${answerTypes}" th:text="${answerType}" th:value="${answerType}"></option>
                     </select>
                 </div>
             </div>
