@@ -45,5 +45,11 @@ public class QuestionsController extends AbstractController {
 		LOGGER.info("AnswerForm submitted!");
 		return "redirect:/";
 	}
-
+	
+	@GetMapping("/deleteQuestion")
+	public String deleteQuestion(@RequestParam("eventId") Long eventId, @RequestParam("questionId") Long questionId, Model model) {
+		getFeedbackService().deleteQuestion(eventId, questionId);
+		return index(model, eventId);
+	}
+	
 }

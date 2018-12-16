@@ -17,16 +17,17 @@
 			<table id="questionsTable" class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Question</th>
+						<th>Edit</th>
+						<th>Delete</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="question, rowStat: ${questions}"
-						th:style="${rowStat.odd} ? 'color: black' : 'color: black;'"
-						th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|">
-						<td th:text="${question.id}">1</td>
-						<td th:text="${question.questionName}">Jack</td>
+						th:style="${rowStat.odd} ? 'color: black' : 'color: black;'">
+						<td th:text="${question.questionName}" th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|">Jack</td>
+						<td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|"><i class="fa fa-edit"></i></button> </td>
+                        <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/deleteQuestion(eventId=${eventId},questionId=${question.id})}'|"><i class="fa fa-trash"></i></button> </td>
 					</tr>
 				</tbody>
 			</table>
