@@ -1,6 +1,7 @@
 package com.badenia.feedback.feedbacksystem.service.impl;
 
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -108,14 +109,55 @@ class FeedbackServiceImpl implements IFeedbackService {
 
 	@Override
 	public Long saveEvent(@Valid Event event) {
-		return getEventRepository().save(EventTableModel.builder().id(event.getId()).name(event.getName()).build()).getId();
+		return getEventRepository().save(EventTableModel.builder().id(event.getId()).name(event.getName()).build())
+				.getId();
 	}
 
 	@Override
 	public Long save(@NotNull Long eventId, @Valid Question question) {
+		// lese aller Fragen
+		List<QuestionTableModel> allQuestion = getQuestionRepository().findAllByEventId(eventId);
+		Optional<Integer> max = allQuestion.stream().map(QuestionTableModel::getOrder)
+				.max(Comparator.comparingInt(Integer::valueOf));
+		int order = 1;
+		if (max.isPresent()) {
+			order = max.get() + 1;
+		}
 		return getQuestionRepository().save(QuestionTableModel.builder().id(question.getId()).eventId(eventId)
-				.questionTitle(question.getQuestionName()).questionTypeId(question.getQuestionType().getDbId()).build())
-				.getId();
+				.questionTitle(question.getQuestionName()).questionTypeId(question.getQuestionType().getDbId())
+				.order(order).build()).getId();
+	}
+	
+	@Override
+	public void deleteEvent(@NotNull Long eventId) throws EntityNotFoundException {
+		if (getEventRepository().existsById(eventId)) {
+			List<QuestionTableModel> allQuestions = getQuestionRepository().findAllByEventId(eventId);
+			if (!allQuestions.isEmpty()) {
+				for (QuestionTableModel eachQuestion : allQuestions) {
+					List<AnswerTableModel> allAnswers = getAnswerRepository().findAllByQuestionId(eachQuestion.getId());
+					getAnswerRepository().deleteAll(allAnswers);
+				}
+				getQuestionRepository().deleteAll(allQuestions);				
+			}
+			getEventRepository().deleteById(eventId);
+		} else {
+			throw new EntityNotFoundException(Event.class, "id", eventId.toString());
+		}
+	}
+	
+	@Override
+	public void deleteQuestion(@NotNull Long eventId, @NotNull Long questionId) throws EntityNotFoundException {
+		if (getEventRepository().existsById(eventId)) {
+			if (getQuestionRepository().existsById(questionId)) {
+				List<AnswerTableModel> allAnswersToQuestion = getAnswerRepository().findAllByQuestionId(questionId);
+				getAnswerRepository().deleteAll(allAnswersToQuestion);
+				getQuestionRepository().deleteById(questionId);
+			} else {
+				throw new EntityNotFoundException(Question.class, "id", questionId.toString());
+			}			
+		} else {
+			throw new EntityNotFoundException(Event.class, "id", eventId.toString());
+		}
 	}
 
 }

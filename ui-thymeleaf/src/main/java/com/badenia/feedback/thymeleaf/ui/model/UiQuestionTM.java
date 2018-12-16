@@ -17,5 +17,5 @@ public class UiQuestionTM {
 
 	private Long eventId;
 	
-	private Long answerTypeId;
+	private String answerType;
 }

@@ -3,8 +3,10 @@ package com.badenia.feedback.feedbacksystem.controller;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -87,7 +89,8 @@ public class QuestionControllerTest {
 				.getJson();
 
 		mockMvc.perform(post("/v1/feedback/events/20/questions").contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-				.content(jsonValue)).andDo(print()).andExpect(status().isCreated()).andExpect(header().string("location", "http://localhost/v1/feedback/events/20/questions/21"));
+				.content(jsonValue)).andDo(print()).andExpect(status().isCreated())
+				.andExpect(header().string("location", "http://localhost/v1/feedback/events/20/questions/21"));
 
 		verify(feedbackServiceMock).save(20L,
 				Question.builder().id(-1L).questionName("Name").questionType(QuestionType.FIVE_SMILEYS).build());
@@ -113,6 +116,56 @@ public class QuestionControllerTest {
 		verify(feedbackServiceMock).save(20L,
 				Question.builder().id(21L).questionName("Name").questionType(QuestionType.FIVE_SMILEYS).build());
 
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.badenia.feedback.feedbacksystem.controller.QuestionController#deleteQuestion(java.lang.Long, java.lang.Long)}.
+	 */
+	@Test
+	public void testDeleteQuestion_EventWithIdDoesntExists_ReturnsNotFoundAndApiError() throws Exception {
+
+		doThrow(new EntityNotFoundException(Event.class, "id", "20")).when(feedbackServiceMock).deleteQuestion(20L,
+				21L);
+
+		mockMvc.perform(delete("/v1/feedback/events/20/questions/21")).andDo(print()).andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.apierror.status", is("NOT_FOUND")))
+				.andExpect(jsonPath("$.apierror.message", is("Event was not found for parameters {id=20}")))
+				.andExpect(jsonPath("$.apierror.debugMessage", isEmptyOrNullString()))
+				.andExpect(jsonPath("$.apierror.subErrors", nullValue()));
+		verify(feedbackServiceMock).deleteQuestion(20L, 21L);
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.badenia.feedback.feedbacksystem.controller.QuestionController#deleteQuestion(java.lang.Long, java.lang.Long)}.
+	 */
+	@Test
+	public void testDeleteQuestion_QuestionWithIdDoesntExists_ReturnsNotFoundAndApiError() throws Exception {
+
+		doThrow(new EntityNotFoundException(Question.class, "id", "21")).when(feedbackServiceMock).deleteQuestion(20L,
+				21L);
+
+		mockMvc.perform(delete("/v1/feedback/events/20/questions/21")).andDo(print()).andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.apierror.status", is("NOT_FOUND")))
+				.andExpect(jsonPath("$.apierror.message", is("Question was not found for parameters {id=21}")))
+				.andExpect(jsonPath("$.apierror.debugMessage", isEmptyOrNullString()))
+				.andExpect(jsonPath("$.apierror.subErrors", nullValue()));
+		verify(feedbackServiceMock).deleteQuestion(20L, 21L);
+
+	}
+
+	/**
+	 * Test method for {@link com.badenia.feedback.feedbacksystem.controller.QuestionController#deleteQuestion(java.lang.Long, java.lang.Long)}.
+	 */
+	@Test
+	public void testDeleteQuestion_EventWithIdExistAndQuestionWithIdExistsAndDeleted_ReturnsNoContent() throws Exception {
+		
+		mockMvc.perform(delete("/v1/feedback/events/20/questions/21")).andDo(print()).andExpect(status().isNoContent());
+	
+		verify(feedbackServiceMock).deleteQuestion(20L, 21L);
+		
 	}
 
 }

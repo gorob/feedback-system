@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -133,6 +135,33 @@ public class EventControllerTest {
 				.andDo(print()).andExpect(status().isNoContent());
 
 		verify(getFeedbackServiceMock()).saveEvent(Event.builder().id(20L).name("Event").build());
+	}
+
+	/**
+	 * Test method for {@link com.badenia.feedback.feedbacksystem.controller.EventController#deleteEvent(java.lang.Long)}.
+	 */
+	@Test
+	public void testDeleteEvent_EventDoesntExist_ReturnsNotFound() throws Exception {
+		Mockito.doThrow(new EntityNotFoundException(Event.class, "id", "20")).when(getFeedbackServiceMock()).deleteEvent(20L);
+
+		getMockMvc()
+				.perform(delete("/v1/feedback/events/20"))
+				.andDo(print()).andExpect(status().isNotFound());
+
+		verify(getFeedbackServiceMock()).deleteEvent(20L);
+	}
+	
+	/**
+	 * Test method for {@link com.badenia.feedback.feedbacksystem.controller.EventController#deleteEvent(java.lang.Long)}.
+	 */
+	@Test
+	public void testDeleteEvent_EventExistAndDeleted_ReturnsNoContent() throws Exception {
+
+		getMockMvc()
+				.perform(delete("/v1/feedback/events/20"))
+				.andDo(print()).andExpect(status().isNoContent());
+
+		verify(getFeedbackServiceMock()).deleteEvent(20L);
 	}
 
 }

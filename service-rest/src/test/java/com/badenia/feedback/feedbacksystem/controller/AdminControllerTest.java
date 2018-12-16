@@ -56,8 +56,8 @@ public class AdminControllerTest {
 	public void testReadQuestionTypes() throws Exception {
 		getMockMvc()
 				.perform(MockMvcRequestBuilders.get("/v1/feedback/admin/questionTypes")
-						.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andDo(print()).andExpect(MockMvcResultMatchers.status().isOk())
+						.accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
+				.andDo(print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[0]", is("FREETEXT"))).andExpect(jsonPath("$.[1]", is("THREE_SMILEYS")))
 				.andExpect(jsonPath("$.[2]", is("FIVE_SMILEYS"))).andExpect(jsonPath("$.[3]", is("YES_NO")));
 

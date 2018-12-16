@@ -6,12 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Entity(name = "Question")
 @Data
@@ -32,7 +32,11 @@ public class QuestionTableModel {
 	private Long questionTypeId;
 
 	@Column(name = "question")
-	@NonNull
+	@NotNull
 	private String questionTitle;
+	
+	@Column(name = "order_nr")
+	@NotNull
+	private int order;
 
 }
