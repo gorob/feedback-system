@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/headerHead :: head">...</div>
+
+<div th:replace="fragments/headerNavBar :: header">...</div>
+
+<body class="bg-light text-dark bgsecond">
+	<div class="container">
+		<br> <br>
+		<h1>
+			Questions
+			<button type="button" class="btn btn-dark"
+				th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId})}'|">New</button>
+		</h1>
+		<div class="row col-md-7 table-responsive">
+			<table id="questionsTable" class="table">
+				<thead>
+					<tr>
+						<th>Question</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="question, rowStat: ${questions}"
+						th:style="${rowStat.odd} ? 'color: black' : 'color: black;'">
+						<td th:text="${question.questionName}" th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|">Jack</td>
+						<td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newQuestion(eventId=${eventId}, questionId=${question.id})}'|"><i class="fa fa-edit"></i></button> </td>
+                        <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/deleteQuestion(eventId=${eventId},questionId=${question.id})}'|"><i class="fa fa-trash"></i></button> </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/headerHead :: head">...</div>
+
+<div th:replace="fragments/headerNavBar :: header">...</div>
+
+
+<body class="bg-light text-dark bgsecond">
+    <div class="container">
+        <br><br>
+        <h1>Events
+            <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newEvent}'|">New</button>
+        </h1>
+        <div class="row col-md-7 table-responsive">
+            <table id="eventsTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody >
+                        <tr th:style="${rowStat.odd} ? 'color: black' : 'color: black;'"
+                        th:each="event, rowStat: ${events}"
+                        >
+                            <td th:text="${event.name}" th:onclick="|window.location.href='@{/questions(eventId=${event.id})}'|">EventName</td>
+                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newEvent(eventId=${event.id})}'|"><i class="fa fa-edit"></i></button> </td>
+                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/deleteEvent(eventId=${event.id})}'|"><i class="fa fa-trash"></i></button> </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
