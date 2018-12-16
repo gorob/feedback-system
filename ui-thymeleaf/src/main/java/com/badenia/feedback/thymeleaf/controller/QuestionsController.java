@@ -7,9 +7,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.badenia.feedback.thymeleaf.ui.model.AnswerForm;
 import com.feedback.service.client.model.Event;
 import com.feedback.service.client.model.Question;
 
@@ -33,11 +35,13 @@ public class QuestionsController extends AbstractController {
 		model.addAttribute("questions", allQuestionsToEvent);
 		model.addAttribute("eventId", eventId);
 		model.addAttribute("eventName", eventById.getName());
+		model.addAttribute("answerForm", new AnswerForm(eventId, ""));
 		return "answer";
 	}
 	
 	@PostMapping(path = {"/answer"})
-	public String answerPost(Model model) {
+	public String answerPost(@ModelAttribute(value="answerForm") AnswerForm answer) {
+		LOGGER.info("Answer obj: {}", answer.toString());
 		LOGGER.info("AnswerForm submitted!");
 		return "redirect:/";
 	}

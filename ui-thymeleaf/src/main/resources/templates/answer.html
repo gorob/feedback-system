@@ -8,12 +8,14 @@
 <body class="bg-light text-dark bgsecond">
 		<br> <br>
 		<h1 th:text="${eventName}" style="text-align: center;">Event Formular</h1>
-		<form action="#" th:action="@{/answer}" method="post" id="main">
+		
+		<form action="#" th:action="@{/answer}" method="post" id="main" th:object="${answerForm}">
+			<input class="invisible" th:field="*{eventId}"/>
 			<div th:each="question, rowStat: ${questions}" class="form-group container">
-				<label for="${question.questionName}" th:text="${question.questionName}">New event:</label>
+				<label for="${question.questionName}" th:text="${question.questionName}" th:field="*{name}">New event:</label>
 				<div th:switch="${question.questionType}">
 					<div th:case="'FIVE_SMILEYS'">
-						<div th:replace="fragments/stars :: stars">...</div>
+						<div th:replace="fragments/stars :: stars" th:id="'star-' + ${question.id}">...</div>
 					</div>
 					<div th:case="'YES_NO'">
 						<div th:replace="fragments/yes_no :: yesno">...</div>
