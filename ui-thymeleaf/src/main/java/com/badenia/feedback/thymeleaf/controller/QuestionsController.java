@@ -18,22 +18,25 @@ import com.feedback.service.client.model.Question;
 @Controller
 public class QuestionsController extends AbstractController {
 	
+	private static final String MODEL_ATTR_EVENTID = "eventId";
+	private static final String MODEL_ATTR_QUESTIONS = "questions";
+	private static final String UI_TEMPLATE_QUESTIONS = "questions";
 	private static final Logger LOGGER = LogManager.getLogger(QuestionsController.class);
 
-	@GetMapping(path = {"/questions"}, params = "eventId")
-	public String index(Model model, @RequestParam(required = true, name = "eventId") Long eventId) {
+	@GetMapping(path = {"/questions"}, params = MODEL_ATTR_EVENTID)
+	public String index(Model model, @RequestParam(required = true, name = MODEL_ATTR_EVENTID) Long eventId) {
 		List<Question> allQuestionsToEvent = getFeedbackService().leseAlleFragenZuEvent(eventId);
-		model.addAttribute("questions", allQuestionsToEvent);
-		model.addAttribute("eventId", eventId);
-		return "questions";
+		model.addAttribute(MODEL_ATTR_QUESTIONS, allQuestionsToEvent);
+		model.addAttribute(MODEL_ATTR_EVENTID, eventId);
+		return UI_TEMPLATE_QUESTIONS;
 	}
 	
-	@GetMapping(path = {"/answer"}, params = {"eventId"})
-	public String answer(Model model, @RequestParam(required = true, name = "eventId") Long eventId) {
+	@GetMapping(path = {"/answer"}, params = {MODEL_ATTR_EVENTID})
+	public String answer(Model model, @RequestParam(required = true, name = MODEL_ATTR_EVENTID) Long eventId) {
 		Event eventById = getFeedbackService().getEventById(eventId);
 		List<Question> allQuestionsToEvent = getFeedbackService().leseAlleFragenZuEvent(eventId);
-		model.addAttribute("questions", allQuestionsToEvent);
-		model.addAttribute("eventId", eventId);
+		model.addAttribute(MODEL_ATTR_QUESTIONS, allQuestionsToEvent);
+		model.addAttribute(MODEL_ATTR_EVENTID, eventId);
 		model.addAttribute("eventName", eventById.getName());
 		model.addAttribute("answerForm", new AnswerForm(eventId, ""));
 		return "answer";
@@ -47,7 +50,7 @@ public class QuestionsController extends AbstractController {
 	}
 	
 	@GetMapping("/deleteQuestion")
-	public String deleteQuestion(@RequestParam("eventId") Long eventId, @RequestParam("questionId") Long questionId, Model model) {
+	public String deleteQuestion(@RequestParam(MODEL_ATTR_EVENTID) Long eventId, @RequestParam("questionId") Long questionId, Model model) {
 		getFeedbackService().deleteQuestion(eventId, questionId);
 		return index(model, eventId);
 	}

@@ -26,8 +26,8 @@
                         th:each="event, rowStat: ${events}"
                         >
                             <td th:text="${event.name}" th:onclick="|window.location.href='@{/questions(eventId=${event.id})}'|">EventName</td>
-                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newEvent(eventId=${event.id})}'|"><i class="fas fa-edit"></i></button> </td>
-                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/deleteEvent(eventId=${event.id})}'|"><i class="fas fa-trash-alt"></i></button> </td>
+                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/newEvent(eventId=${event.id})}'|"><i class="fa fa-edit"></i></button> </td>
+                            <td> <button type="button" class="btn btn-dark" th:onclick="|window.location.href='@{/deleteEvent(eventId=${event.id})}'|"><i class="fa fa-trash"></i></button> </td>
                         </tr>
                 </tbody>
             </table>

@@ -12,7 +12,7 @@ public interface IFeedbackClientService {
 	
 	Event saveEvent(Event event);
 	
-	Event getEventById(long id);
+	Event getEventById(Long id);
 	
 	List<Question> leseAlleFragenZuEvent(Long eventId);
 
@@ -24,9 +24,9 @@ public interface IFeedbackClientService {
 	
 	List<String> readAllSupportedQuestionTypes();
 	
-	void deleteEvent(long eventId);
+	void deleteEvent(Long eventId);
 	
-	void deleteQuestion(long eventId, long questionId);
+	void deleteQuestion(Long eventId, Long questionId);
 	
 	
 

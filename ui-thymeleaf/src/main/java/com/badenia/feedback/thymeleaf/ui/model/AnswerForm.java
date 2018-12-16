@@ -15,6 +15,5 @@ public class AnswerForm {
 	
 	private long eventId;
 	private String name;
-//	private List<UiQuestionTM> questions;
 
 }
