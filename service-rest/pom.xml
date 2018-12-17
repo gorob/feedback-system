@@ -9,6 +9,8 @@
 	</parent>
 	<artifactId>service-rest</artifactId>
 
+	<name>service-rest</name>
+
 	<properties>
 		<java.version>8</java.version>
 	</properties>
