@@ -10,7 +10,14 @@
 	<packaging>pom</packaging>
 
 	<name>feedback-system</name>
-	<description>Demo project for Spring Boot</description>
+	<description>a litte feedback system to evaluate ui frameworks</description>
+	<inceptionYear>2018</inceptionYear>
+
+	<scm>
+		<connection>scm:git:git@github.com:uniqueck/feedback-system.git</connection>
+		<developerConnection>scm:git:git@github.com:uniqueck/feedback-system.git</developerConnection>
+	</scm>
+
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -19,10 +26,25 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
+	<developers>
+		<developer>
+			<id>ckrueger</id>
+			<name>Constantin Krüger</name>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<email>bikerconstantin@gmail.com</email>
+		</developer>
+	</developers>
+
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<generatedUmlImagesPath>${project.build.directory}/generated-docs/images/uml</generatedUmlImagesPath>
+		<asciidoctor.maven.plugin.version>1.5.3</asciidoctor.maven.plugin.version>
 	</properties>
 
 	<modules>
@@ -31,6 +53,86 @@
 		<module>ui-thymeleaf</module>
 		<module>ui-base</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.jeluard</groupId>
+				<artifactId>plantuml-maven-plugin</artifactId>
+				<version>1.1</version>
+				<inherited>false</inherited>
+				<configuration>
+					<sourceFiles>
+						<directory>${basedir}/src/doc/plantuml</directory>
+						<includes>
+							<include>**/*.puml</include>
+						</includes>
+					</sourceFiles>
+					<outputDirectory>${generatedUmlImagesPath}</outputDirectory>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.plantuml</groupId>
+						<artifactId>plantuml</artifactId>
+						<version>8019</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<inherited>false</inherited>
+						<id>generate-uml-model-site</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<inherited>false</inherited>
+						<id>generate-uml-model-package</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>${asciidoctor.maven.plugin.version}</version>
+				<executions>
+					<execution>
+						<inherited>false</inherited>
+						<id>asciidoc-to-html</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${basedir}/src/doc/asciidoc</sourceDirectory>
+							<sourceDocumentName>archdoc.adoc</sourceDocumentName>
+							<backend>html5</backend>
+							<sourceHighlighter>coderay</sourceHighlighter>
+							<attributes>
+								<toc>left</toc>
+								<toc-title>Inhaltsverzeichnis</toc-title>
+								<caution-caption>Achtung</caution-caption>
+								<important-caption>Wichtig</important-caption>
+								<note-caption>Hinweis</note-caption>
+								<tip-caption>Tip</tip-caption>
+								<warning-caption>Warnung</warning-caption>
+								<appendix-caption>Anhang</appendix-caption>
+								<example-caption>Beispiel</example-caption>
+								<figure-caption>Abbildung</figure-caption>
+								<table-caption>Tabelle</table-caption>
+							</attributes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 
 
 </project>
